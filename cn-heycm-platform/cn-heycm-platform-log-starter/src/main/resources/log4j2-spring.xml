@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config" status="WARN" monitorInterval="30">
+
+  <Properties>
+    <Property name="LOG_HOME" value="${sys:user.home}/logs/cloud-heycm/logs"/>
+    <Property name="LOG_NAME" value="${spring:spring.application.name}"/>
+    <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%t|%-4level|%X{UID}|%X{TraceId}|%logger{5} | %m%n"/>
+    <Property name="LOG_LEVEL" value="INFO"/>
+  </Properties>
+
+  <Appenders>
+    <!-- 控制台输出 -->
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+    </Console>
+    <!-- 日志文件输出 -->
+    <RollingFile name="rolling" fileName="${LOG_HOME}/${LOG_NAME}/${LOG_NAME}.log"
+      filePattern="${LOG_HOME}/${LOG_NAME}/history/${LOG_NAME}-%d{yyyy-MM-dd}-%i.log" immediateFlush="false">
+      <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+      <Filters>
+        <ThresholdFilter level="INFO" onMatch="ACCEPT"/>
+        <ThresholdFilter level="WARN" onMatch="ACCEPT"/>
+        <ThresholdFilter level="ERROR" onMatch="ACCEPT"/>
+      </Filters>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="100MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="30"/>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Root level="${LOG_LEVEL}" includeLocation="false">
+      <!-- DEV模式 -->
+      <AppenderRef ref="console"/>
+      <!-- PROD模式 -->
+      <AppenderRef ref="rolling"/>
+    </Root>
+  </Loggers>
+
+</Configuration>

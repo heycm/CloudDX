@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.heycm</groupId>
+    <artifactId>cn-heycm-common</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <artifactId>cn-heycm-common-web</artifactId>
+  <description>公共Web模块</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>cn.heycm</groupId>
+      <artifactId>cn-heycm-common-entity</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.heycm</groupId>
+      <artifactId>cn-heycm-common-tools</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cn.heycm</groupId>
+      <artifactId>cn-heycm-platform-log-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- 参数校验框架 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <!-- 模型转换 -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+    </dependency>
+  </dependencies>
+</project>
