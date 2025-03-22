@@ -1,0 +1,18 @@
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+.mvn/
+**/.mvn
+**/mvnw
+**/mvnw.cmd
+
+target/
+**/target/
+**/src/main/**/target/
+**/src/test/**/target/
+
+**/src/main/resources/static/doc/
