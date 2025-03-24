@@ -22,6 +22,6 @@ public class Log4j2AutoConfiguration {
      * https://docs.spring.io/spring-boot/reference/features/logging.html#features.logging.log4j2-extensions.environment-properties-lookup
      */
     public Log4j2AutoConfiguration() {
-        log.info("platform component log starter ready...");
+        log.info("platform component [Log4j2] starter ready...");
     }
 }

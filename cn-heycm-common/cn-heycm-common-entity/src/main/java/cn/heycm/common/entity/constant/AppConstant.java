@@ -19,4 +19,7 @@ public interface AppConstant {
 
     // Token前缀
     String TOKEN_PREFIX = "Bearer ";
+
+    // 来源终端
+    String TERMINAL = "Terminal";
 }
