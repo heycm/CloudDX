@@ -13,6 +13,7 @@
   <description>公共Web模块</description>
 
   <dependencies>
+    <!-- 公共依赖 -->
     <dependency>
       <groupId>cn.heycm</groupId>
       <artifactId>cn-heycm-common-entity</artifactId>
@@ -23,10 +24,12 @@
       <artifactId>cn-heycm-common-tools</artifactId>
       <version>1.0</version>
     </dependency>
+    <!-- 启用 bootstrap.yml 文件 -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-bootstrap</artifactId>
     </dependency>
+    <!-- Web 依赖 start -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -35,11 +38,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
     </dependency>
-    <dependency>
-      <groupId>cn.heycm</groupId>
-      <artifactId>cn-heycm-platform-log-starter</artifactId>
-      <version>1.0</version>
-    </dependency>
+    <!-- Web 依赖 end -->
 
     <!-- 参数校验框架 -->
     <dependency>
@@ -50,6 +49,13 @@
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
+    </dependency>
+
+    <!-- 项目平台自定义组件 - Log -->
+    <dependency>
+      <groupId>cn.heycm</groupId>
+      <artifactId>cn-heycm-platform-log-starter</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 </project>
