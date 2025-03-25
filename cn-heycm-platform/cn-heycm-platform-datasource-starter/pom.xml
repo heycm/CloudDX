@@ -9,7 +9,7 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>cn-heycm-platform-datasource</artifactId>
+  <artifactId>cn-heycm-platform-datasource-starter</artifactId>
   <description>数据源组件</description>
 
   <dependencies>

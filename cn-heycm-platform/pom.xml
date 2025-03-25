@@ -17,7 +17,7 @@
     <module>cn-heycm-platform-openfeign-starter</module>
     <module>cn-heycm-platform-nacos-starter</module>
     <module>cn-heycm-platform-canary</module>
-    <module>cn-heycm-platform-datasource</module>
+    <module>cn-heycm-platform-datasource-starter</module>
   </modules>
 
   <dependencies>
