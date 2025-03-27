@@ -22,4 +22,7 @@ public interface AppConstant {
 
     // 来源终端
     String TERMINAL = "Terminal";
+
+    // 请求头租户ID
+    String TENANT_ID = "TenantId";
 }

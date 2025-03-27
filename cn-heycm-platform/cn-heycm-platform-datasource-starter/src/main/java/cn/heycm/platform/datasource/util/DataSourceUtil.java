@@ -2,7 +2,11 @@ package cn.heycm.platform.datasource.util;
 
 import cn.heycm.common.entity.datasourcce.DataSourceItem;
 import cn.heycm.common.entity.datasourcce.DataSourceItemPool;
+import cn.heycm.platform.datasource.tenant.TenantDataSource;
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DataSource 工具类
@@ -33,6 +37,20 @@ public class DataSourceUtil {
             dataSource.setValidationTimeout(pool.getValidationTimeout());
         }
         return dataSource;
+    }
+
+    public static TenantDataSource createTenantDataSource(List<DataSourceItem> items) throws ClassNotFoundException {
+        TenantDataSource tenantDataSource = new TenantDataSource();
+        Map<Object, Object> targetDataSources = new HashMap<>();
+        for (DataSourceItem item : items) {
+            HikariDataSource dataSource = createDataSource(item);
+            targetDataSources.put(item.getTenantId(), dataSource);
+            if (item.isPrimary()) {
+                tenantDataSource.setDefaultTargetDataSource(dataSource);
+            }
+        }
+        tenantDataSource.setTargetDataSources(targetDataSources);
+        return tenantDataSource;
     }
 
 }

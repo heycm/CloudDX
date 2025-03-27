@@ -16,9 +16,9 @@ public class DataSourceItem {
             "jdbc:mysql://{0}:{1}/{2}?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai");
 
     /**
-     * 租户
+     * 租户ID
      */
-    private String tenant;
+    private String tenantId;
 
     /**
      * 是否主（默认）数据源
