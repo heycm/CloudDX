@@ -18,6 +18,7 @@
     <module>cn-heycm-platform-nacos-starter</module>
     <module>cn-heycm-platform-canary</module>
     <module>cn-heycm-platform-datasource-starter</module>
+    <module>cn-heycm-platform-mybatis-starter</module>
   </modules>
 
   <dependencies>
