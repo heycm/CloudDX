@@ -40,13 +40,18 @@ public class TraceFilter extends OncePerRequestFilter {
         traceId = StringUtils.hasText(traceId) ? traceId : UUIDUtil.getId();
         MDC.put(AppConstant.TRACE_ID, traceId);
         String uid = request.getHeader(AppConstant.UID);
-        if (!"0".equals(uid)) {
+        if (StringUtils.hasText(uid)) {
             MDC.put(AppConstant.UID, uid);
+        }
+        String tenantId = request.getHeader(AppConstant.TENANT_ID);
+        if (StringUtils.hasText(tenantId)) {
+            MDC.put(AppConstant.TENANT_ID, tenantId);
         }
     }
 
     private void clearMDC() {
         MDC.remove(AppConstant.TRACE_ID);
         MDC.remove(AppConstant.UID);
+        MDC.remove(AppConstant.TENANT_ID);
     }
 }
