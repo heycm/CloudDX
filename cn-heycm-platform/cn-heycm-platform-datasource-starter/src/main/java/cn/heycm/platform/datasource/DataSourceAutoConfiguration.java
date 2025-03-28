@@ -5,6 +5,7 @@ import cn.heycm.common.entity.error.Assert;
 import cn.heycm.common.tools.Jackson;
 import cn.heycm.platform.datasource.aspect.TenantAspect;
 import cn.heycm.platform.datasource.properties.DataSourceProperties;
+import cn.heycm.platform.datasource.transaction.TransactionHelper;
 import cn.heycm.platform.datasource.util.DataSourceUtil;
 import cn.heycm.platform.nacos.service.NacosConfListener;
 import java.util.Collections;
@@ -61,7 +62,9 @@ public class DataSourceAutoConfiguration {
      */
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
+        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
+        TransactionHelper.setPlatformTransactionManager(dataSourceTransactionManager);
+        return dataSourceTransactionManager;
     }
 
     /**

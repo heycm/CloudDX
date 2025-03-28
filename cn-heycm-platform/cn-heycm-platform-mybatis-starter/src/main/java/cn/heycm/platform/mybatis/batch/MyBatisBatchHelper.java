@@ -20,10 +20,15 @@ public class MyBatisBatchHelper {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
-    private static SqlSessionFactory sqlSessionFactory;
+    private static volatile SqlSessionFactory sqlSessionFactory;
 
-    public MyBatisBatchHelper(SqlSessionFactory sqlSessionFactory) {
-        MyBatisBatchHelper.sqlSessionFactory = sqlSessionFactory;
+    private MyBatisBatchHelper() {
+    }
+
+    public static void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+        if (MyBatisBatchHelper.sqlSessionFactory == null) {
+            MyBatisBatchHelper.sqlSessionFactory = sqlSessionFactory;
+        }
     }
 
     /**

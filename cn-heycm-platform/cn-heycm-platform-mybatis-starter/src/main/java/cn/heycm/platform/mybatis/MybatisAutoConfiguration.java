@@ -4,7 +4,6 @@ import cn.heycm.platform.mybatis.batch.MyBatisBatchHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -18,13 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class MybatisAutoConfiguration {
 
-    public MybatisAutoConfiguration() {
+    public MybatisAutoConfiguration(SqlSessionFactory sqlSessionFactory) {
         log.info("platform component [Mybatis] starter ready...");
-    }
-
-    @Bean
-    public MyBatisBatchHelper myBatisBatchHelper(SqlSessionFactory sqlSessionFactory) {
-        return new MyBatisBatchHelper(sqlSessionFactory);
+        MyBatisBatchHelper.setSqlSessionFactory(sqlSessionFactory);
     }
 
 }
