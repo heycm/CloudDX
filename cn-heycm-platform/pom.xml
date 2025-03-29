@@ -19,6 +19,7 @@
     <module>cn-heycm-platform-canary</module>
     <module>cn-heycm-platform-datasource-starter</module>
     <module>cn-heycm-platform-mybatis-starter</module>
+    <module>cn-heycm-platform-mq</module>
   </modules>
 
   <dependencies>
