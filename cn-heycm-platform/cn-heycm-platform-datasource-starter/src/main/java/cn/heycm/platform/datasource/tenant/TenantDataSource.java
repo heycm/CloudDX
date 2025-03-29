@@ -1,5 +1,6 @@
 package cn.heycm.platform.datasource.tenant;
 
+import cn.heycm.common.entity.tenant.TenantContextHolder;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**

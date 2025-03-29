@@ -2,7 +2,7 @@ package cn.heycm.platform.datasource.aspect;
 
 import cn.heycm.common.entity.constant.AppConstant;
 import cn.heycm.common.entity.error.Assert;
-import cn.heycm.platform.datasource.tenant.TenantContextHolder;
+import cn.heycm.common.entity.tenant.TenantContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

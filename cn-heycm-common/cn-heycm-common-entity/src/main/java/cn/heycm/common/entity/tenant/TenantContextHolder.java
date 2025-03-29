@@ -1,6 +1,5 @@
-package cn.heycm.platform.datasource.tenant;
+package cn.heycm.common.entity.tenant;
 
-import org.springframework.util.StringUtils;
 
 /**
  * 租户上下文
@@ -25,6 +24,6 @@ public class TenantContextHolder {
     }
 
     public static boolean alreadySet() {
-        return StringUtils.hasText(TENANT.get());
+        return TENANT.get() != null;
     }
 }
