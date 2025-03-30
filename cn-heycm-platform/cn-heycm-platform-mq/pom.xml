@@ -14,6 +14,7 @@
   <description>消息组件 - RocketMQ</description>
   <modules>
     <module>cn-heycm-platform-mq-common</module>
+    <module>cn-heycm-platform-mq-producer</module>
   </modules>
 
 </project>

@@ -52,6 +52,11 @@ public class Event implements Serializable {
     private Context context;
 
     /**
+     * 事件标签
+     */
+    private String tags;
+
+    /**
      * 发送超时，默认3000ms
      */
     private long timeout = 3000;
