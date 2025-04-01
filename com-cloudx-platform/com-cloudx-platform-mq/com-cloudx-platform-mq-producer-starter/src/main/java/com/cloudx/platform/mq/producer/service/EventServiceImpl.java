@@ -53,7 +53,7 @@ public class EventServiceImpl implements EventService {
     public boolean pushBroadcast(Event event) {
         TransactionHandlerCache.register(event);
         String topic = event.getTopic() + Constant.BROADCAST_SUFFIX;
-        topic = StringUtils.hasText(event.getTags()) ? event.getTopic() + ":" + event.getTags() : event.getTopic();
+        topic = StringUtils.hasText(event.getTags()) ? topic + ":" + event.getTags() : topic;
         TransactionSendResult result = rocketMQTemplate.sendMessageInTransaction(topic, MessageBuilder.withPayload(event).build(), "");
         return success(result);
     }
@@ -69,7 +69,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean pushOrderly(Event event) {
         String topic = event.getTopic() + Constant.ORDERLY_SUFFIX;
-        topic = StringUtils.hasText(event.getTags()) ? event.getTopic() + ":" + event.getTags() : event.getTopic();
+        topic = StringUtils.hasText(event.getTags()) ? topic + ":" + event.getTags() : topic;
         SendResult result = rocketMQTemplate.syncSendOrderly(topic, MessageBuilder.withPayload(event).build(), event.getHash(),
                 event.getTimeout());
         return success(result);
@@ -90,7 +90,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void asyncPushOrderly(Event event, SendCallback callback) {
         String topic = event.getTopic() + Constant.ORDERLY_SUFFIX;
-        topic = StringUtils.hasText(event.getTags()) ? event.getTopic() + ":" + event.getTags() : event.getTopic();
+        topic = StringUtils.hasText(event.getTags()) ? topic + ":" + event.getTags() : topic;
         rocketMQTemplate.asyncSendOrderly(topic, MessageBuilder.withPayload(event).build(), event.getHash(), callback, event.getTimeout());
     }
 

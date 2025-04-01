@@ -2,6 +2,7 @@ package com.cloudx.platform.mq.consumer.multicaster;
 
 import com.cloudx.common.entity.constant.AppConstant;
 import com.cloudx.common.entity.error.Assert;
+import com.cloudx.common.entity.tenant.TenantContextHolder;
 import com.cloudx.platform.mq.common.event.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -77,10 +78,12 @@ public class EventMulticaster {
                 log.warn("Topic [{}] not support event: [{}]", topic, eventName);
                 return;
             }
+            TenantContextHolder.setTenantId(event.getTenantId());
             method.invoke(handler, event);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         } finally {
+            TenantContextHolder.clear();
             clearTrace(event);
         }
     }
