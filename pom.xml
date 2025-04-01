@@ -4,17 +4,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>cn.heycm</groupId>
-  <artifactId>cn-heycm-cloud</artifactId>
+  <groupId>com.cloudx</groupId>
+  <artifactId>com-cloudx-parent</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
 
   <description>Cloud-Heycm 根项目</description>
 
   <modules>
-    <module>cn-heycm-common</module>
-    <module>cn-heycm-platform</module>
-    <module>cn-heycm-service</module>
+    <module>com-cloudx-common</module>
+    <module>com-cloudx-platform</module>
+    <module>com-cloudx-service</module>
   </modules>
 
   <properties>
@@ -376,7 +376,7 @@
             <configFile>${basedir}/src/main/resources/smart-doc.json</configFile>
             <projectName>${project.description}</projectName>
             <includes>
-              <include>cn.heycm.*</include>
+              <include>com.cloudx.*</include>
             </includes>
           </configuration>
           <executions>

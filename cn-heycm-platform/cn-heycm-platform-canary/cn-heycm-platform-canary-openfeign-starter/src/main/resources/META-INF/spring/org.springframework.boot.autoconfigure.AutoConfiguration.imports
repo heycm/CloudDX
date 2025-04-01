@@ -1,3 +1,0 @@
-cn.heycm.platform.canary.core.CanaryLoadBalancerClientConfiguration
-cn.heycm.platform.canary.core.CanaryAutoConfiguration
-cn.heycm.platform.canary.openfeign.CanaryOpenFeignAutoConfiguration

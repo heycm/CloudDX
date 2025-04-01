@@ -1,0 +1,3 @@
+com.cloudx.platform.canary.core.CanaryLoadBalancerClientConfiguration
+com.cloudx.platform.canary.core.CanaryAutoConfiguration
+com.cloudx.platform.canary.openfeign.CanaryOpenFeignAutoConfiguration
