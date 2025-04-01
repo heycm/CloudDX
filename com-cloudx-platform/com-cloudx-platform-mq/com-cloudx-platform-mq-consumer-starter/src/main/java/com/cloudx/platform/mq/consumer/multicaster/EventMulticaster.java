@@ -4,15 +4,15 @@ import com.cloudx.common.entity.constant.AppConstant;
 import com.cloudx.common.entity.error.Assert;
 import com.cloudx.common.entity.tenant.TenantContextHolder;
 import com.cloudx.platform.mq.common.event.Event;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
-import org.springframework.util.CollectionUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 事件转播处理中心
@@ -69,7 +69,9 @@ public class EventMulticaster {
      */
     public static void onEvent(Event event) {
         try {
+            // 设置链路ID
             setTrace(event);
+            // 获取事件执行对象和方法
             String topic = event.getTopic();
             String eventName = event.getEvent();
             Method method = METHODS.get(eventName);
@@ -78,13 +80,27 @@ public class EventMulticaster {
                 log.warn("Topic [{}] not support event: [{}]", topic, eventName);
                 return;
             }
-            TenantContextHolder.setTenantId(event.getTenantId());
+            // 设置租户上下文
+            setTenant(event);
+            // 事件消费
             method.invoke(handler, event);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         } finally {
-            TenantContextHolder.clear();
+            clearTenant(event);
             clearTrace(event);
+        }
+    }
+
+    private static void clearTenant(Event event) {
+        if (StringUtils.hasText(event.getTenantId())) {
+            TenantContextHolder.clear();
+        }
+    }
+
+    private static void setTenant(Event event) {
+        if (StringUtils.hasText(event.getTenantId())) {
+            TenantContextHolder.setTenantId(event.getTenantId());
         }
     }
 
