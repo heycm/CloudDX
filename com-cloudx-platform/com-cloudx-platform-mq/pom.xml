@@ -14,7 +14,8 @@
   <description>消息组件 - RocketMQ</description>
   <modules>
     <module>com-cloudx-platform-mq-common</module>
-    <module>com-cloudx-platform-mq-producer</module>
+    <module>com-cloudx-platform-mq-producer-starter</module>
+    <module>com-cloudx-platform-mq-consumer-starter</module>
   </modules>
 
 </project>

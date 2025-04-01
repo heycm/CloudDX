@@ -9,7 +9,7 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>com-cloudx-platform-mq-producer</artifactId>
+  <artifactId>com-cloudx-platform-mq-producer-starter</artifactId>
   <description>消息组件 - 生产者</description>
 
   <dependencies>
