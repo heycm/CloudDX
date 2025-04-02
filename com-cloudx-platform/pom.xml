@@ -20,6 +20,7 @@
     <module>com-cloudx-platform-datasource-starter</module>
     <module>com-cloudx-platform-mybatis-starter</module>
     <module>com-cloudx-platform-mq</module>
+      <module>com-cloudx-platform-redis-starter</module>
   </modules>
 
   <dependencies>
