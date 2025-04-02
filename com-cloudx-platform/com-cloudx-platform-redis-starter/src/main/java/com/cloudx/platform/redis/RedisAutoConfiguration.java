@@ -1,5 +1,8 @@
 package com.cloudx.platform.redis;
 
+import com.cloudx.platform.redis.aspect.LimiterAspect;
+import com.cloudx.platform.redis.client.RedisClient;
+import com.cloudx.platform.redis.client.TenantRedisClientImpl;
 import com.cloudx.platform.redis.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +32,7 @@ public class RedisAutoConfiguration {
 
     public RedisAutoConfiguration(RedisProperties redisProperties) {
         this.redisProperties = redisProperties;
+        log.info("platform component [Redis] starter ready...");
     }
 
     /**
@@ -68,5 +72,17 @@ public class RedisAutoConfiguration {
     @ConditionalOnBean(RedisConnectionFactory.class)
     public RedisTemplate<String, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
         return RedisUtil.createRedisTemplate(redisConnectionFactory);
+    }
+
+    @Bean
+    @ConditionalOnBean(RedisTemplate.class)
+    public RedisClient redisClient(RedisTemplate<String, Object> redisTemplate) {
+        return new TenantRedisClientImpl(redisTemplate);
+    }
+
+    @Bean
+    @ConditionalOnBean(RedisClient.class)
+    public LimiterAspect limiterAspect(RedisClient redisClient) {
+        return new LimiterAspect(redisClient);
     }
 }
