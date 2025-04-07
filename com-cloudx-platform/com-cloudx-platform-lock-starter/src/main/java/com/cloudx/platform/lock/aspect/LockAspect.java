@@ -24,27 +24,13 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public class LockAspect {
 
-    private static final String PREFIX = "distributed:lock:";
-
-    private final LockClient lockClient;
-
-    public LockAspect(LockClient lockClient) {
-        this.lockClient = lockClient;
-    }
-
     @Around("@annotation(com.cloudx.platform.lock.annotation.Lock)")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         Lock lock = method.getAnnotation(Lock.class);
-        try {
-            String key = PREFIX + getKey(lock, method, pjp);
-            boolean success = lockClient.tryLock(key, lock.leaseTime(), lock.waitTime());
-            Assert.isTrue(success, lock.error());
-            return pjp.proceed();
-        } finally {
-            lockClient.release();
-        }
+        String key = getKey(lock, method, pjp);
+        return LockX.apply(pjp::proceed, key, lock.leaseTime(), lock.waitTime());
     }
 
     private String getKey(Lock lock, Method method, ProceedingJoinPoint pjp) throws NoSuchFieldException, IllegalAccessException {

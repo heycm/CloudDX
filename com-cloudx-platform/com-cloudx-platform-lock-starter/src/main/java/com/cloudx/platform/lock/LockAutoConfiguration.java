@@ -70,7 +70,7 @@ public class LockAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(LockClient.class)
-    public LockAspect distributedLockAspect(LockClient redisLock) {
-        return new LockAspect(redisLock);
+    public LockAspect lockAspect() {
+        return new LockAspect();
     }
 }
