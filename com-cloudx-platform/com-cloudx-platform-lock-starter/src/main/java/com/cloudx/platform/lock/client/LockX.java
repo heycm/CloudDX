@@ -34,8 +34,8 @@ public final class LockX {
      * @param runnable 执行单元
      * @param key      锁key
      */
-    public static void execute(Runnable runnable, String key) {
-        LockX.execute(runnable, key, 3000, 300);
+    public static void lock(Runnable runnable, String key) {
+        LockX.lock(runnable, key, 3000, 300);
     }
 
     /**
@@ -45,7 +45,7 @@ public final class LockX {
      * @param leaseTime 锁过期时间
      * @param waitTime  等待时间
      */
-    public static void execute(Runnable runnable, String key, long leaseTime, long waitTime) {
+    public static void lock(Runnable runnable, String key, long leaseTime, long waitTime) {
         if (lockClient == null) {
             throw new NullPointerException("LockClient is null");
         }
