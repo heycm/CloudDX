@@ -22,6 +22,7 @@
     <module>com-cloudx-platform-mq</module>
       <module>com-cloudx-platform-redis-starter</module>
     <module>com-cloudx-platform-lock-starter</module>
+      <module>com-cloudx-platform-id-starter</module>
   </modules>
 
   <dependencies>
