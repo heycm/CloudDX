@@ -1,5 +1,6 @@
 package com.cloudx.platform.apisign.builder;
 
+import com.cloudx.common.entity.error.Assert;
 import com.cloudx.common.tools.cipher.MD5Util;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -53,6 +54,12 @@ public class SignBuilder {
      * @return 签名
      */
     public String build() {
+        Assert.notBlank(tenantId, "Invalid signature tenant.");
+        Assert.notBlank(secretKey, "Invalid signature secret.");
+        Assert.notBlank(nonce, "Invalid signature nonce.");
+        Assert.notBlank(timestamp, "Invalid signature timestamp.");
+        Assert.notBlank(uri, "Invalid signature uri.");
+
         StringBuilder builder = new StringBuilder();
         builder.append(uri);
         if (StringUtils.hasText(query)) {

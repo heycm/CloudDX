@@ -6,6 +6,12 @@ import com.cloudx.platform.apisign.repository.SignRepository;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 签名秘钥存储实现
+ * @author heycm
+ * @version 1.0
+ * @since 2025/4/9 22:24
+ */
 public class SignRepositoryImpl implements SignRepository {
 
     private final Map<String, SignProperties> data = new ConcurrentHashMap<>();

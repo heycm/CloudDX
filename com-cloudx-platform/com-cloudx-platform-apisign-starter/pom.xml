@@ -26,6 +26,10 @@
             <artifactId>com-cloudx-platform-nacos-starter</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
