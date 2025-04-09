@@ -25,4 +25,7 @@ public interface AppConstant {
 
     // 请求头租户ID
     String TENANT_ID = "TenantId";
+
+    String X_TIMESTAMP = "X-Timestamp";
+    String X_NONCE = "X-Nonce";
 }
