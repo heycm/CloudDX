@@ -26,6 +26,12 @@ public interface AppConstant {
     // 请求头租户ID
     String TENANT_ID = "TenantId";
 
+    // 请求时间戳
     String X_TIMESTAMP = "X-Timestamp";
+
+    // 请求随机字符
     String X_NONCE = "X-Nonce";
+
+    // 请求签名
+    String X_SIGNATURE = "X-Signature";
 }
