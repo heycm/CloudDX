@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
   <description>服务层</description>
   <modules>
-    <module>cn-heycm-app</module>
+    <module>com-cloudx-app</module>
     <module>com-cloudx-domain</module>
   </modules>
 

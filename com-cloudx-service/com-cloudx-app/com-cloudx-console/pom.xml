@@ -5,18 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.cloudx</groupId>
-    <artifactId>cn-heycm-app</artifactId>
+    <artifactId>com-cloudx-app</artifactId>
     <version>1.0</version>
   </parent>
 
-  <artifactId>com-cloudx-tenant</artifactId>
-  <description>APP-租户中心</description>
+  <artifactId>com-cloudx-console</artifactId>
+  <description>APP-管理后台</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.cloudx</groupId>
-      <artifactId>com-cloudx-common-web</artifactId>
-      <version>1.0</version>
-    </dependency>
-  </dependencies>
 </project>
