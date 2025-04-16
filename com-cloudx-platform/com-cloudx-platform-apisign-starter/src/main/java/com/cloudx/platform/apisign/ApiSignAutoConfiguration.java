@@ -5,10 +5,14 @@ import com.cloudx.platform.apisign.filter.SignFilter;
 import com.cloudx.platform.apisign.properties.SignProperties;
 import com.cloudx.platform.apisign.repository.NonceRepository;
 import com.cloudx.platform.apisign.repository.SignRepository;
+import com.cloudx.platform.apisign.repository.PathRepository;
 import com.cloudx.platform.apisign.repository.impl.NonceRepositoryImpl;
 import com.cloudx.platform.apisign.repository.impl.SignRepositoryImpl;
+import com.cloudx.platform.apisign.repository.impl.PathRepositoryImpl;
 import com.cloudx.platform.nacos.service.NacosConfListener;
 import java.util.List;
+import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,16 +22,21 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Slf4j
 public class ApiSignAutoConfiguration {
 
-    private static final String DATA_ID = "micro-apisign.json";
+    private static final String GROUP = "API_SIGN";
+    private static final String DATA_ID = "cloudx-apisign.json";
+    private static final String URL_DATA_ID = "cloudx-apisign-exclude-url.json";
 
-    public ApiSignAutoConfiguration() {
+    private final NacosConfListener nacosConfListener;
+
+    public ApiSignAutoConfiguration(NacosConfListener nacosConfListener) {
+        this.nacosConfListener = nacosConfListener;
         log.info("platform component [ApiSign] starter ready...");
     }
 
     @Bean
-    public SignRepository signRepository(NacosConfListener nacosConfListener) {
+    public SignRepository signRepository() {
         SignRepository repository = new SignRepositoryImpl();
-        nacosConfListener.addListener(DATA_ID, confs -> {
+        nacosConfListener.addListener(DATA_ID, GROUP, confs -> {
             List<SignProperties> properties = Jackson.toList(confs, SignProperties.class);
             repository.saveProperties(properties);
         });
@@ -40,7 +49,18 @@ public class ApiSignAutoConfiguration {
     }
 
     @Bean
-    public SignFilter signFilter(SignRepository signRepository, NonceRepository nonceRepository) {
-        return new SignFilter(signRepository, nonceRepository);
+    public PathRepository pathRepository() {
+        PathRepositoryImpl repository = new PathRepositoryImpl();
+        nacosConfListener.addListener(URL_DATA_ID, GROUP, confs -> {
+            Set<String> paths = Jackson.toSet(confs, String.class);
+            repository.save(paths);
+        });
+        return repository;
+    }
+
+    @Bean
+    public SignFilter signFilter(SignRepository signRepository, NonceRepository nonceRepository,
+                                 PathRepository pathRepository) {
+        return new SignFilter(signRepository, nonceRepository, pathRepository);
     }
 }

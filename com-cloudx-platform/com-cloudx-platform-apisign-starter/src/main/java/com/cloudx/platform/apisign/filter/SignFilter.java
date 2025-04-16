@@ -5,8 +5,11 @@ import com.cloudx.common.entity.error.Assert;
 import com.cloudx.platform.apisign.builder.SignBuilder;
 import com.cloudx.platform.apisign.properties.SignProperties;
 import com.cloudx.platform.apisign.repository.NonceRepository;
+import com.cloudx.platform.apisign.repository.PathRepository;
 import com.cloudx.platform.apisign.repository.SignRepository;
+
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -22,12 +25,14 @@ public class SignFilter implements WebFilter, Ordered {
 
     private final SignRepository signRepository;
     private final NonceRepository nonceRepository;
+    private final PathRepository pathRepository;
 
     private final long timeout = 1000 * 60 * 5;
 
-    public SignFilter(SignRepository signRepository, NonceRepository nonceRepository) {
+    public SignFilter(SignRepository signRepository, NonceRepository nonceRepository, PathRepository pathRepository) {
         this.signRepository = signRepository;
         this.nonceRepository = nonceRepository;
+        this.pathRepository = pathRepository;
     }
 
     @Override
@@ -39,11 +44,14 @@ public class SignFilter implements WebFilter, Ordered {
         if (!properties.isEnable()) {
             return chain.filter(exchange);
         }
+        String uri = request.getURI().getPath();
+        if (pathRepository.isMatchExclusion(uri)) {
+            return chain.filter(exchange);
+        }
 
         String signature = headers.getFirst(AppConstant.X_SIGNATURE);
         String nonce = headers.getFirst(AppConstant.X_NONCE);
         String timestamp = headers.getFirst(AppConstant.X_TIMESTAMP);
-        String uri = request.getURI().getPath();
         String query = request.getURI().getQuery();
 
         // 验签
