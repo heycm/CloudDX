@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.cloudx</groupId>
+    <artifactId>com-cloudx-platform-oss</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <artifactId>com-cloudx-platform-oss-aliyun-starter</artifactId>
+  <description>阿里云OSS</description>
+
+  <properties>
+    <!-- 阿里云对象存储SDK -->
+    <aliyun-oss-version>3.17.4</aliyun-oss-version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-oss-common</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun.oss</groupId>
+      <artifactId>aliyun-sdk-oss</artifactId>
+      <version>${aliyun-oss-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <!-- no more than 2.3.3-->
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>2.3.3</version>
+    </dependency>
+  </dependencies>
+</project>

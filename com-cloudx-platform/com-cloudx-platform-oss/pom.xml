@@ -14,6 +14,7 @@
   <description>对象存储组件</description>
   <modules>
     <module>com-cloudx-platform-oss-common</module>
+    <module>com-cloudx-platform-oss-aliyun-starter</module>
   </modules>
 
 </project>
