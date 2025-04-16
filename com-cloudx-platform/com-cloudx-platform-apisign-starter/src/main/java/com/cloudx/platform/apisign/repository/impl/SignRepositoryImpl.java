@@ -2,9 +2,13 @@ package com.cloudx.platform.apisign.repository.impl;
 
 import com.cloudx.platform.apisign.properties.SignProperties;
 import com.cloudx.platform.apisign.repository.SignRepository;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 签名秘钥存储实现
@@ -19,6 +23,17 @@ public class SignRepositoryImpl implements SignRepository {
     @Override
     public void saveProperties(SignProperties properties) {
         data.put(properties.getTenantId(), properties);
+    }
+
+    @Override
+    public void saveProperties(List<SignProperties> properties) {
+        if (CollectionUtils.isEmpty(properties)) {
+            data.clear();
+            return;
+        }
+        properties.forEach(this::saveProperties);
+        Set<String> tenantIds = properties.stream().map(SignProperties::getTenantId).collect(Collectors.toSet());
+        data.keySet().removeIf(key -> !tenantIds.contains(key));
     }
 
     @Override

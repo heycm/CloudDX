@@ -29,7 +29,7 @@ public class ApiSignAutoConfiguration {
         SignRepository repository = new SignRepositoryImpl();
         nacosConfListener.addListener(DATA_ID, confs -> {
             List<SignProperties> properties = Jackson.toList(confs, SignProperties.class);
-            properties.forEach(repository::saveProperties);
+            repository.saveProperties(properties);
         });
         return repository;
     }
