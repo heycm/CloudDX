@@ -25,6 +25,7 @@
     <module>com-cloudx-platform-id-starter</module>
     <module>com-cloudx-platform-apisign-starter</module>
     <module>com-cloudx-platform-sms</module>
+    <module>com-cloudx-platform-oss</module>
   </modules>
 
   <dependencies>
