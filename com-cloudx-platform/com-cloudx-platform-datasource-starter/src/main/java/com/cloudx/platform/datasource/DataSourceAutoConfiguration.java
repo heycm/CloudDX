@@ -32,13 +32,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Slf4j
 public class DataSourceAutoConfiguration {
 
-    private static final String DATA_ID = "micro-datasource.json";
+    private static final String GROUP = "DATASOURCE";
+    private static final String DATA_ID = "cloudx-datasource.json";
 
     private List<DataSourceItem> dataSourceItems;
 
     public DataSourceAutoConfiguration(NacosConfListener nacosConfListener, DataSourceProperties properties) {
         Assert.notBlank(properties.getSchema(), "Properties of datasource.schema is blank.");
-        nacosConfListener.addListener(DATA_ID, (config) -> {
+        nacosConfListener.addListener(DATA_ID, GROUP, (config) -> {
             List<DataSourceItem> list = Jackson.toList(config, DataSourceItem.class);
             list = list == null ? Collections.emptyList() : list;
             dataSourceItems = list.stream().filter(item -> properties.getSchema().equals(item.getSchema())).toList();

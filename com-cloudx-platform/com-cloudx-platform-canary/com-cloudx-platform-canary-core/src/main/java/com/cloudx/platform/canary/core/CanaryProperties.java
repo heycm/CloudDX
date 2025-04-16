@@ -16,7 +16,7 @@ public class CanaryProperties {
     /**
      * 灰度规则文件名
      */
-    private String datId = "micro-canary-rule.json";
+    private String datId = "canary-rule.json";
 
     /**
      * 灰度规则分组

@@ -23,8 +23,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class ApiSignAutoConfiguration {
 
     private static final String GROUP = "API_SIGN";
-    private static final String DATA_ID = "cloudx-apisign.json";
-    private static final String URL_DATA_ID = "cloudx-apisign-exclude-url.json";
+    private static final String DATA_ID = "apisign.json";
+    private static final String URL_DATA_ID = "apisign-exclude-url.json";
 
     private final NacosConfListener nacosConfListener;
 
