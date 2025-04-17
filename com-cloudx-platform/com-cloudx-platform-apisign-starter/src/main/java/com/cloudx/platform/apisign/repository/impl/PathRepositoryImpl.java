@@ -3,6 +3,7 @@ package com.cloudx.platform.apisign.repository.impl;
 import com.cloudx.platform.apisign.repository.PathRepository;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -18,7 +19,9 @@ public class PathRepositoryImpl implements PathRepository {
 
     @Override
     public void save(Set<String> pathPatterns) {
-        patternsRef.set(pathPatterns);
+        // 防御外部修改导致线程安全问题
+        Set<String> update = new HashSet<>(pathPatterns);
+        patternsRef.set(update);
     }
 
     @Override
