@@ -13,5 +13,4 @@ public interface OssServiceFactory {
 
     OssService create(OssProperties properties);
 
-    OssService createTenantAdapter(String tenantId, OssProperties properties);
 }
