@@ -16,22 +16,13 @@ import org.springframework.context.annotation.Configuration;
  * @since 2025/4/16 22:38
  */
 @Configuration
-@ConditionalOnProperty(value = "oss.aliyun")
+@ConditionalOnProperty(value = "oss.aliyun.endpoint")
 @EnableConfigurationProperties
-public class AliyunOSSAutoConfiguration {
-
+public class AliyunOssAutoConfiguration {
 
     @Bean
-    @ConditionalOnProperty(value = "oss.aliyun.endpoint")
     @ConfigurationProperties(prefix = "oss.aliyun")
     public OssProperties ossProperties() {
         return new OssProperties();
-    }
-
-    @Bean
-    @ConditionalOnProperty(value = "oss.aliyun.tenant")
-    @ConfigurationProperties(prefix = "oss.aliyun.tenant")
-    public Map<String, OssProperties> tenantOssProperties() {
-        return new HashMap<>();
     }
 }
