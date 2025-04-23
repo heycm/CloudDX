@@ -26,6 +26,7 @@
     <module>com-cloudx-platform-apisign-starter</module>
     <module>com-cloudx-platform-sms</module>
     <module>com-cloudx-platform-oss</module>
+    <module>com-cloudx-platform-sentinel-starter</module>
   </modules>
 
   <dependencies>
