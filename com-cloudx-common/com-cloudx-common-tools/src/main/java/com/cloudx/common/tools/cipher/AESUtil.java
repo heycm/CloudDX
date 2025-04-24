@@ -1,12 +1,12 @@
 package com.cloudx.common.tools.cipher;
 
 import com.cloudx.common.entity.constant.StartedConfig;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * AES
@@ -32,18 +32,20 @@ public class AESUtil {
     }
 
     /**
-     * 加密
-     * @param content 明文
-     * @return 密文
+     * AES 加密
+     * @param data      原数据
+     * @param secretKey 加密密钥
+     * @param iv        加密向量
+     * @return 加密数据
      */
-    public static String encrypt(String content) {
-        if (content == null || content.isEmpty()) {
-            return content;
+    public static String encrypt(String data, String secretKey, String iv) {
+        if (data == null || data.isEmpty()) {
+            return data;
         }
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(), getIvParameterSpec());
-            byte[] encrypted = cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(secretKey.getBytes(), ALGORITHM), new IvParameterSpec(iv.getBytes()));
+            byte[] encrypted = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(encrypted); // 返回Base64编码的密文
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,18 +54,20 @@ public class AESUtil {
     }
 
     /**
-     * 解密
-     * @param ciphertext 密文
-     * @return 明文
+     * AES 解密
+     * @param encryptedData 加密数据
+     * @param secretKey     加密密钥
+     * @param iv            加密向量
+     * @return 原数据
      */
-    public static String decrypt(String ciphertext) {
-        if (ciphertext == null || ciphertext.isEmpty()) {
-            return ciphertext;
+    public static String decrypt(String encryptedData, String secretKey, String iv) {
+        if (encryptedData == null || encryptedData.isEmpty()) {
+            return encryptedData;
         }
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(), getIvParameterSpec());
-            byte[] decodedBytes = Base64.getDecoder().decode(ciphertext.getBytes(StandardCharsets.UTF_8));
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(secretKey.getBytes(), ALGORITHM), new IvParameterSpec(iv.getBytes()));
+            byte[] decodedBytes = Base64.getDecoder().decode(encryptedData.getBytes(StandardCharsets.UTF_8));
             byte[] decrypted = cipher.doFinal(decodedBytes);
             return new String(decrypted);
         } catch (Exception e) {
@@ -72,13 +76,21 @@ public class AESUtil {
         }
     }
 
-    // 使用指定的密钥和IV
-    private static SecretKey getSecretKey() {
-        return new SecretKeySpec(SECRET_KEY.getBytes(), ALGORITHM);
+    /**
+     * 加密
+     * @param content 明文
+     * @return 密文
+     */
+    public static String encrypt(String content) {
+        return AESUtil.encrypt(content, SECRET_KEY, IV);
     }
 
-    // 使用指定的IV
-    private static IvParameterSpec getIvParameterSpec() {
-        return new IvParameterSpec(IV.getBytes());
+    /**
+     * 解密
+     * @param encryptedData 密文
+     * @return 明文
+     */
+    public static String decrypt(String encryptedData) {
+        return AESUtil.decrypt(encryptedData, SECRET_KEY, IV);
     }
 }
