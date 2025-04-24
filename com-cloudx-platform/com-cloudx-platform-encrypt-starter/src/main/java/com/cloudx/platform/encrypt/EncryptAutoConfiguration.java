@@ -10,4 +10,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class EncryptAutoConfiguration {
+
+    private static final String GROUP = "ENCRYPT";
+
+    private static final String DATA_ID = "api-encrypt.json";
+
 }
