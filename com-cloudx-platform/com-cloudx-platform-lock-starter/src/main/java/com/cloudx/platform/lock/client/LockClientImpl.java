@@ -14,6 +14,8 @@ import org.redisson.api.RedissonClient;
 @Slf4j
 public class LockClientImpl implements LockClient {
 
+    private static final String PREFIX = "distributed:lock:";
+
     private static final ThreadLocal<RLock> LOCKS = new ThreadLocal<>();
 
     private final RedissonClient redissonClient;
@@ -25,6 +27,7 @@ public class LockClientImpl implements LockClient {
     @Override
     public boolean tryLock(String key, long leaseTime, long waitTime) {
         try {
+            key = PREFIX + key;
             RLock lock = redissonClient.getLock(key);
             LOCKS.set(lock);
             boolean success = lock.tryLock(waitTime, leaseTime, TimeUnit.MILLISECONDS);

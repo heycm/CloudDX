@@ -14,8 +14,6 @@ public final class LockX {
 
     private static volatile LockClient lockClient;
 
-    private static final String PREFIX = "distributed:lock:";
-
     private LockX() {
     }
 
@@ -50,7 +48,6 @@ public final class LockX {
             throw new NullPointerException("LockClient is null");
         }
         try {
-            key = PREFIX + key;
             boolean success = lockClient.tryLock(key, leaseTime, waitTime);
             Assert.isTrue(success, CodeMsg.LOCK_FAILED);
             runnable.run();
@@ -71,7 +68,6 @@ public final class LockX {
             throw new NullPointerException("LockClient is null");
         }
         try {
-            key = PREFIX + key;
             boolean success = lockClient.tryLock(key, leaseTime, waitTime);
             Assert.isTrue(success, CodeMsg.LOCK_FAILED);
             return runnable.run();
