@@ -13,13 +13,11 @@
     <description>接口加解密组件</description>
 
     <dependencies>
+        <!-- 网关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webflux</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.cloudx</groupId>
