@@ -1,5 +1,6 @@
 package com.cloudx.platform.websocket.core;
 
+import com.cloudx.platform.websocket.model.message.BaseMessage;
 import com.cloudx.platform.websocket.model.message.MessageType;
 
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MessageHandlerRegistry {
 
-    private final Map<MessageType, MessageHandler<?>> handlers = new ConcurrentHashMap<>();
+    private final Map<MessageType,MessageHandler<BaseMessage>> handlers = new ConcurrentHashMap<>();
 
-    public MessageHandlerRegistry(List<MessageHandler<?>> handlerList) {
+    public MessageHandlerRegistry(List<MessageHandler<BaseMessage>> handlerList) {
         handlerList.forEach(this::addHandler);
     }
 
-    public void addHandler(MessageHandler<?> handler) {
+    public void addHandler(MessageHandler<BaseMessage> handler) {
         if (handlers.containsKey(handler.getSupportedType())) {
             throw new IllegalStateException("Duplicate handler for type: "
                     + handler.getSupportedType());
@@ -29,7 +30,7 @@ public class MessageHandlerRegistry {
         handlers.put(handler.getSupportedType(), handler);
     }
 
-    public Optional<MessageHandler<?>> getHandler(MessageType messageType) {
+    public Optional<MessageHandler<BaseMessage>> getHandler(MessageType messageType) {
         return Optional.ofNullable(handlers.get(messageType));
     }
 }

@@ -1,6 +1,7 @@
 package com.cloudx.platform.websocket.core;
 
 import com.cloudx.platform.websocket.model.session.SessionWrapper;
+import java.util.Optional;
 
 /**
  * Session 存储层
@@ -12,9 +13,9 @@ public interface SessionRepository {
 
     void save(SessionWrapper sessionWrapper);
 
-    SessionWrapper get(String sessionId);
+    Optional<SessionWrapper> getBySessionId(String sessionId);
+
+    Optional<SessionWrapper> getByUserId(String userId);
 
     void remove(String sessionId);
-
-    void remove(SessionWrapper sessionWrapper);
 }

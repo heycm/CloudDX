@@ -8,6 +8,6 @@ package com.cloudx.platform.websocket.model.message;
  */
 public enum MessageType {
 
-    PING, PONG, TEXT_PLAIN, JSON, UNKNOWN
+    CONNECTED, PING, PONG, TEXT_PLAIN, JSON, UNKNOWN
 
 }

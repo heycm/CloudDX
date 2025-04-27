@@ -3,6 +3,7 @@ package com.cloudx.platform.websocket.core;
 import com.cloudx.platform.websocket.model.message.BaseMessage;
 import com.cloudx.platform.websocket.model.message.MessageType;
 import com.cloudx.platform.websocket.model.session.SessionWrapper;
+import java.io.IOException;
 
 /**
  * 消息处理器

@@ -1,10 +1,9 @@
 package com.cloudx.platform.websocket.model.message;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 消息实体基类

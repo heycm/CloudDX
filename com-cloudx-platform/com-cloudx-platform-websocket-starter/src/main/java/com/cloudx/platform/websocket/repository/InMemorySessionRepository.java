@@ -3,6 +3,7 @@ package com.cloudx.platform.websocket.repository;
 import com.cloudx.platform.websocket.core.SessionRepository;
 import com.cloudx.platform.websocket.model.session.SessionWrapper;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -15,24 +16,33 @@ import java.util.concurrent.ConcurrentMap;
 public class InMemorySessionRepository implements SessionRepository {
 
     private final ConcurrentMap<String, SessionWrapper> sessions = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, SessionWrapper> users = new ConcurrentHashMap<>();
 
     @Override
     public void save(SessionWrapper sessionWrapper) {
         sessions.put(sessionWrapper.getSessionId(), sessionWrapper);
+        if (sessionWrapper.getUserId() != null) {
+            users.put(sessionWrapper.getUserId(), sessionWrapper);
+        }
     }
 
     @Override
-    public SessionWrapper get(String sessionId) {
-        return sessions.get(sessionId);
+    public Optional<SessionWrapper> getBySessionId(String sessionId) {
+        return Optional.ofNullable(sessions.get(sessionId));
+    }
+
+    @Override
+    public Optional<SessionWrapper> getByUserId(String userId) {
+        return Optional.empty();
     }
 
     @Override
     public void remove(String sessionId) {
-        sessions.remove(sessionId);
-    }
-
-    @Override
-    public void remove(SessionWrapper sessionWrapper) {
-        sessions.remove(sessionWrapper.getSessionId());
+        getBySessionId(sessionId).ifPresent(sessionWrapper -> {
+            sessions.remove(sessionWrapper.getSessionId());
+            if (sessionWrapper.getUserId() != null) {
+                users.remove(sessionWrapper.getUserId());
+            }
+        });
     }
 }
