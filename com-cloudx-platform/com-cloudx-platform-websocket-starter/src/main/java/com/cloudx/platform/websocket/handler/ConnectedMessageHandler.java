@@ -1,12 +1,10 @@
 package com.cloudx.platform.websocket.handler;
 
-import com.cloudx.common.tools.Jackson;
 import com.cloudx.platform.websocket.core.MessageHandler;
 import com.cloudx.platform.websocket.core.MessageSender;
 import com.cloudx.platform.websocket.model.message.ConnectedMessage;
 import com.cloudx.platform.websocket.model.message.MessageType;
 import com.cloudx.platform.websocket.model.session.SessionWrapper;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -24,8 +22,7 @@ public class ConnectedMessageHandler implements MessageHandler<ConnectedMessage>
 
     @Override
     public void handleMessage(ConnectedMessage message, SessionWrapper sessionWrapper) {
-        TextMessage textMessage = new TextMessage(Jackson.toJson(message));
         WebSocketSession session = sessionWrapper.getSession();
-        MessageSender.send(session, textMessage);
+        MessageSender.send(session, message);
     }
 }

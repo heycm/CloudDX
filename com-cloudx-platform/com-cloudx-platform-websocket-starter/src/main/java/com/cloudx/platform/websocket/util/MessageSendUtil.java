@@ -1,4 +1,4 @@
-package com.cloudx.platform.websocket.core;
+package com.cloudx.platform.websocket.util;
 
 import com.cloudx.common.tools.Jackson;
 import com.cloudx.platform.websocket.exception.SendMessageException;
@@ -10,22 +10,22 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * 消息发送器
+ * 消息发送工具类
  * @author heycm
  * @version 1.0
  * @since 2025/4/27 22:06
  */
-public class MessageSender {
+public class MessageSendUtil {
 
-    private MessageSender() {
+    private MessageSendUtil() {
     }
 
     public static void send(WebSocketSession session, BaseMessage message) {
-        MessageSender.send(session, Jackson.toJson(message));
+        MessageSendUtil.send(session, Jackson.toJson(message));
     }
 
     public static void send(WebSocketSession session, String message) {
-        MessageSender.send(session, new TextMessage(message));
+        MessageSendUtil.send(session, new TextMessage(message));
     }
 
     public static void send(WebSocketSession session, WebSocketMessage<?> message) {
