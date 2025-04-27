@@ -146,6 +146,18 @@
         <artifactId>spring-boot-starter-undertow</artifactId>
         <version>${spring-boot.version}</version>
       </dependency>
+      <!-- WebSocket -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+        <version>${spring-boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
       <!-- JDBC -->
       <dependency>
