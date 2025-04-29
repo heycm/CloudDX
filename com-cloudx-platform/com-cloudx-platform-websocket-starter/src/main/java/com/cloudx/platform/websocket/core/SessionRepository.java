@@ -1,6 +1,5 @@
 package com.cloudx.platform.websocket.core;
 
-import com.cloudx.platform.websocket.model.session.SessionWrapper;
 import java.util.Optional;
 
 /**

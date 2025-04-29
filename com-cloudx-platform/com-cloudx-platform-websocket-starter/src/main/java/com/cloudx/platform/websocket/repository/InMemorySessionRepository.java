@@ -1,7 +1,7 @@
 package com.cloudx.platform.websocket.repository;
 
 import com.cloudx.platform.websocket.core.SessionRepository;
-import com.cloudx.platform.websocket.model.session.SessionWrapper;
+import com.cloudx.platform.websocket.core.SessionWrapper;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +33,7 @@ public class InMemorySessionRepository implements SessionRepository {
 
     @Override
     public Optional<SessionWrapper> getByUserId(String userId) {
-        return Optional.empty();
+        return Optional.ofNullable(users.get(userId));
     }
 
     @Override

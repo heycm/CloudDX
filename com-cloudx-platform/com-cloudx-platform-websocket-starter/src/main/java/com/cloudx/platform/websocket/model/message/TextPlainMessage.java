@@ -20,6 +20,6 @@ public class TextPlainMessage extends BaseMessage {
     private String text;
 
     public TextPlainMessage() {
-        super(MessageType.TEXT_PLAIN);
+        setMessageType(MessageType.TEXT_PLAIN.name());
     }
 }

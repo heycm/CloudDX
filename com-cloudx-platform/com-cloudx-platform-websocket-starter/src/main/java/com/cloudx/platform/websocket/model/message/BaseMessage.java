@@ -1,9 +1,10 @@
 package com.cloudx.platform.websocket.model.message;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serial;
 import java.io.Serializable;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 消息实体基类
@@ -11,8 +12,8 @@ import lombok.experimental.Accessors;
  * @version 1.0
  * @since 2025/4/27 17:16
  */
-@Data
-@Accessors(chain = true)
+@Setter
+@Getter
 public abstract class BaseMessage implements Serializable {
 
     @Serial
@@ -26,18 +27,15 @@ public abstract class BaseMessage implements Serializable {
     /**
      * 消息类型
      */
-    private final MessageType messageType;
+    private String messageType;
 
     /**
      * 时间戳
      */
     private long timestamp;
 
-    public BaseMessage() {
-        this.messageType = MessageType.UNKNOWN;
-    }
-
-    public BaseMessage(MessageType messageType) {
-        this.messageType = messageType;
-    }
+    /**
+     * 当前会话ID
+     */
+    private String currentSessionId;
 }

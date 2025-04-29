@@ -14,8 +14,8 @@ import com.cloudx.platform.websocket.model.message.MessageType;
 public class JsonMessageConverter implements MessageConverter<JsonMessage> {
 
     @Override
-    public MessageType getSupportedType() {
-        return MessageType.JSON;
+    public String getSupportedMessageType() {
+        return MessageType.JSON.name();
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.cloudx.platform.websocket.core.MessageHandler;
 import com.cloudx.platform.websocket.core.MessageHandlerRegistry;
 import com.cloudx.platform.websocket.core.SessionRepository;
 import com.cloudx.platform.websocket.model.message.BaseMessage;
-import com.cloudx.platform.websocket.model.session.SessionWrapper;
+import com.cloudx.platform.websocket.core.SessionWrapper;
 import java.util.Optional;
 
 /**
@@ -25,8 +25,8 @@ public class LocalMessageDispatcher implements MessageDispatcher {
     }
 
     @Override
-    public void dispatch(BaseMessage message, String sessionId) {
-        Optional<SessionWrapper> sessionWrapperOptional = sessionRepository.getBySessionId(sessionId);
+    public void dispatch(BaseMessage message) {
+        Optional<SessionWrapper> sessionWrapperOptional = sessionRepository.getBySessionId(message.getCurrentSessionId());
         if (!sessionWrapperOptional.isPresent()) {
             return;
         }
@@ -35,10 +35,5 @@ public class LocalMessageDispatcher implements MessageDispatcher {
             return;
         }
         handlerOptional.get().handleMessage(message, sessionWrapperOptional.get());
-    }
-
-    @Override
-    public void broadcast(BaseMessage message, String sessionId) {
-
     }
 }

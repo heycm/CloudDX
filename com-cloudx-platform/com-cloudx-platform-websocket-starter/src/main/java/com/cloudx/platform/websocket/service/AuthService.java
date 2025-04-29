@@ -1,6 +1,6 @@
 package com.cloudx.platform.websocket.service;
 
-import com.cloudx.platform.websocket.model.session.AuthResult;
+import com.cloudx.platform.websocket.model.auth.AuthResult;
 import org.springframework.http.server.ServerHttpRequest;
 
 /**

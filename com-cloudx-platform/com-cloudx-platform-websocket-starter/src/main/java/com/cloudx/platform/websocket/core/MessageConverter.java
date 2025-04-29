@@ -15,17 +15,17 @@ public interface MessageConverter<T extends BaseMessage> {
      * 支持的消息类型
      * @return MessageType
      */
-    MessageType getSupportedType();
+    String getSupportedMessageType();
 
     /**
-     * 序列化
+     * 序列化，将消息对象转为下行数据
      * @param message 消息
      * @return 序列化后的消息
      */
     String serialize(T message);
 
     /**
-     * 反序列化
+     * 反序列化，上行数据转为对应类型消息对象
      * @param message 消息
      * @return 反序列化后的消息
      */

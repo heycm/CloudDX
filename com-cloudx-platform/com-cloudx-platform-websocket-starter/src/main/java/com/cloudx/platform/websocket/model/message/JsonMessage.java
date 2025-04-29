@@ -17,6 +17,6 @@ public class JsonMessage extends BaseMessage {
     private String data;
 
     public JsonMessage() {
-        super(MessageType.JSON);
+        setMessageType(MessageType.JSON.name());
     }
 }

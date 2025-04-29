@@ -25,5 +25,11 @@
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-client-api</artifactId>
         </dependency>
+        <!-- 当使用Redis分发消息时需要 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>

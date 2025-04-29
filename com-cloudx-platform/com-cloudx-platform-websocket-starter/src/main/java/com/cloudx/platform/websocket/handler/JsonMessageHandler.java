@@ -1,9 +1,10 @@
 package com.cloudx.platform.websocket.handler;
 
+import com.cloudx.platform.websocket.converter.JsonMessageConverter;
 import com.cloudx.platform.websocket.core.MessageHandler;
 import com.cloudx.platform.websocket.model.message.JsonMessage;
 import com.cloudx.platform.websocket.model.message.MessageType;
-import com.cloudx.platform.websocket.model.session.SessionWrapper;
+import com.cloudx.platform.websocket.core.SessionWrapper;
 
 /**
  * JSON消息处理器
@@ -13,9 +14,15 @@ import com.cloudx.platform.websocket.model.session.SessionWrapper;
  */
 public class JsonMessageHandler implements MessageHandler<JsonMessage> {
 
+    private final JsonMessageConverter jsonMessageConverter;
+
+    public JsonMessageHandler(JsonMessageConverter jsonMessageConverter) {
+        this.jsonMessageConverter = jsonMessageConverter;
+    }
+
     @Override
-    public MessageType getSupportedType() {
-        return MessageType.JSON;
+    public String getSupportedMessageType() {
+        return MessageType.JSON.name();
     }
 
     @Override

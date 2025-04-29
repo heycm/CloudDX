@@ -1,4 +1,4 @@
-package com.cloudx.platform.websocket.model.session;
+package com.cloudx.platform.websocket.model.auth;
 
 import lombok.Data;
 

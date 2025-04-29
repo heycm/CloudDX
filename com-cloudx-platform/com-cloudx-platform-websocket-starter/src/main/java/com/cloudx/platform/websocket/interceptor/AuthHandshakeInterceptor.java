@@ -1,6 +1,6 @@
 package com.cloudx.platform.websocket.interceptor;
 
-import com.cloudx.platform.websocket.model.session.AuthResult;
+import com.cloudx.platform.websocket.model.auth.AuthResult;
 import com.cloudx.platform.websocket.service.AuthService;
 import java.util.Map;
 import org.springframework.http.server.ServerHttpRequest;
