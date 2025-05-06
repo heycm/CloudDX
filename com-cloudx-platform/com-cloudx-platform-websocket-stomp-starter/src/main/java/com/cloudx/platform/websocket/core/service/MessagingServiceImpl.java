@@ -24,11 +24,7 @@ public class MessagingServiceImpl implements MessagingService {
 
     @Override
     public void ping(String sessionId) {
-        messagingTemplate.convertAndSendToUser(sessionId, "/heartbeat", "ping");
+        messagingTemplate.convertAndSendToUser(sessionId, "/queue/ping", "ping");
     }
 
-    @Override
-    public void pong(String sessionId) {
-        messagingTemplate.convertAndSendToUser(sessionId, "/heartbeat", "pong");
-    }
 }

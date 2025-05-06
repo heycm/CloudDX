@@ -9,6 +9,4 @@ package com.cloudx.platform.websocket.core.service;
 public interface MessagingService {
 
     void ping(String sessionId);
-
-    void pong(String sessionId);
 }
