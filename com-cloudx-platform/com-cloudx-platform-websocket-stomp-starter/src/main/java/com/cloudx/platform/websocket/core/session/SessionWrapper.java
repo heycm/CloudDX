@@ -48,4 +48,9 @@ public class SessionWrapper implements Serializable {
         this.sessionId = sessionId;
         this.userId = userId;
     }
+
+    public void updateHeartbeat() {
+        this.lastHeartbeatTime = System.currentTimeMillis();
+        this.pingAttempts = 0;
+    }
 }
