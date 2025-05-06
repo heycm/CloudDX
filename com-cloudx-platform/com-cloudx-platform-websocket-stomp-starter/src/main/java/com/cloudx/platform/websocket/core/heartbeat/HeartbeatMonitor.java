@@ -1,6 +1,7 @@
 package com.cloudx.platform.websocket.core.heartbeat;
 
 import com.cloudx.platform.websocket.autoconfigure.WebSocketProperties;
+import com.cloudx.platform.websocket.core.repository.SessionRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -12,16 +13,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  */
 public class HeartbeatMonitor {
 
-    private static final String HEARTBEAT_KEY = "websocket:heartbeat";
-
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final SessionRepository sessionRepository;
 
     private final WebSocketProperties.Heartbeat heartbeat;
 
-    SimpMessagingTemplate simpMessagingTemplate;
-
-    public HeartbeatMonitor(RedisTemplate<String, Object> redisTemplate, WebSocketProperties webSocketProperties) {
-        this.redisTemplate = redisTemplate;
-        this.heartbeat = webSocketProperties.getHeartbeat();
+    public HeartbeatMonitor(SessionRepository sessionRepository, WebSocketProperties.Heartbeat heartbeat) {
+        this.sessionRepository = sessionRepository;
+        this.heartbeat = heartbeat;
     }
 }

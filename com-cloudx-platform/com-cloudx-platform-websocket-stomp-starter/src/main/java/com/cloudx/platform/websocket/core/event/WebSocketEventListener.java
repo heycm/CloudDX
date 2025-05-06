@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.security.Principal;
 import java.util.Map;
 
 /**
@@ -32,18 +33,9 @@ public class WebSocketEventListener {
     @EventListener
     public void onSessionConnected(SessionConnectedEvent event) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
-        String channelId = (String) accessor.getSessionAttributes().get("CHANNEL_ID");
+        String sessionId = accessor.getSessionId();
         String userId = (String) accessor.getSessionAttributes().get("USER_ID");
-        if (channelId != null) {
-            // 保存会话
-            sessionRepository.save(new SessionWrapper(channelId, userId));
-            // 发送channelId到客户端专用队列
-            String destination = String.format("/user/%s/queue/channelInfo", channelId);
-            messagingTemplate.convertAndSend(destination, Map.of(
-                    "type", "CONNECTION_ESTABLISHED",
-                    "channelId", channelId
-            ));
-        }
+        sessionRepository.save(new SessionWrapper(sessionId, userId));
     }
 
     /**
@@ -52,11 +44,8 @@ public class WebSocketEventListener {
      */
     @EventListener
     public void onSessionDisconnected(SessionDisconnectEvent event) {
-        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
-        String channelId = (String) accessor.getSessionAttributes().get("CHANNEL_ID");
-        if (channelId != null) {
-            sessionRepository.removeChannel(channelId);
-            groupRepository.leaveAll(channelId);
-        }
+        String sessionId = event.getSessionId();
+        sessionRepository.removeSession(sessionId);
+        groupRepository.leaveAll(sessionId);
     }
 }

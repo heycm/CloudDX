@@ -20,9 +20,9 @@ public class SessionWrapper implements Serializable {
     private static final long serialVersionUID = -433781215946716308L;
 
     /**
-     * 通道ID
+     * sessionId
      */
-    private String channelId;
+    private String sessionId;
 
     /**
      * 用户ID
@@ -44,8 +44,8 @@ public class SessionWrapper implements Serializable {
      */
     private int pingAttempts = 0;
 
-    public SessionWrapper(String channelId, String userId) {
-        this.channelId = channelId;
+    public SessionWrapper(String sessionId, String userId) {
+        this.sessionId = sessionId;
         this.userId = userId;
     }
 }

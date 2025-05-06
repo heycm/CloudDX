@@ -12,11 +12,11 @@ public interface SessionRepository {
 
     void save(SessionWrapper session);
 
-    SessionWrapper getChannel(String channelId);
+    SessionWrapper getSession(String sessionId);
 
     SessionWrapper getUser(String userId);
 
-    void removeChannel(String channelId);
+    void removeSession(String sessionId);
 
     void removeUser(String userId);
 }

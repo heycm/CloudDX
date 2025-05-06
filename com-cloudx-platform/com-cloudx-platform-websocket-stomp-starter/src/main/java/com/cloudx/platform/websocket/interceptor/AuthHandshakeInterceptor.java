@@ -42,7 +42,6 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
             sendError(response, result.getErrMsg());
             return false;
         }
-        attributes.put("CHANNEL_ID", UUIDUtil.getId());
         attributes.put("USER_ID", result.getUserId());
         return true;
     }

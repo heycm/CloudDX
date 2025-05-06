@@ -18,12 +18,12 @@ import java.util.Map;
 public class RedisSessionReposiyory implements SessionRepository {
 
     /**
-     * channel缓存：websocket:channel:{channelId} -> session
+     * session缓存：websocket:session:{sessionId} -> session
      */
-    private static final String CHANNEL_KEY_PREFIX = "websocket:channel:";
+    private static final String SESSION_KEY_PREFIX = "websocket:session:";
     
     /**
-     * user缓存：websocket:user:{userId} -> channelId
+     * user缓存：websocket:user:{userId} -> sessionId
      */
     private static final String USER_KEY_PREFIX = "websocket:user:";
 
@@ -35,17 +35,17 @@ public class RedisSessionReposiyory implements SessionRepository {
 
     @Override
     public void save(SessionWrapper session) {
-        String channelKey = CHANNEL_KEY_PREFIX + session.getChannelId();
+        String sessionKey = SESSION_KEY_PREFIX + session.getSessionId();
         Map m = Jackson.toObject(Jackson.toJson(session), Map.class);
-        redisTemplate.boundHashOps(channelKey).putAll(m);
+        redisTemplate.boundHashOps(sessionKey).putAll(m);
         String userKey = USER_KEY_PREFIX + session.getUserId();
-        redisTemplate.boundValueOps(userKey).set(session.getChannelId());
+        redisTemplate.boundValueOps(userKey).set(session.getSessionId());
     }
 
     @Override
-    public SessionWrapper getChannel(String channelId) {
-        String channelKey = CHANNEL_KEY_PREFIX + channelId;
-        Map<Object, Object> entries = redisTemplate.boundHashOps(channelKey).entries();
+    public SessionWrapper getSession(String sessionId) {
+        String sessionKey = SESSION_KEY_PREFIX + sessionId;
+        Map<Object, Object> entries = redisTemplate.boundHashOps(sessionKey).entries();
         if (CollectionUtils.isEmpty(entries)) {
             return null;
         }
@@ -59,16 +59,16 @@ public class RedisSessionReposiyory implements SessionRepository {
         if (o == null) {
             return null;
         }
-        return getChannel(o.toString());
+        return getSession(o.toString());
     }
 
     @Override
-    public void removeChannel(String channelId) {
-        SessionWrapper channel = getChannel(channelId);
-        if (channel != null) {
-            String channelKey = CHANNEL_KEY_PREFIX + channelId;
-            redisTemplate.delete(channelKey);
-            String userKey = USER_KEY_PREFIX + channel.getUserId();
+    public void removeSession(String sessionId) {
+        SessionWrapper session = getSession(sessionId);
+        if (session != null) {
+            String sessionKey = SESSION_KEY_PREFIX + sessionId;
+            redisTemplate.delete(sessionKey);
+            String userKey = USER_KEY_PREFIX + session.getUserId();
             redisTemplate.delete(userKey);
         }
     }
@@ -78,7 +78,7 @@ public class RedisSessionReposiyory implements SessionRepository {
         String userKey = USER_KEY_PREFIX + userId;
         Object o = redisTemplate.boundValueOps(userKey).get();
         if (o != null) {
-            redisTemplate.delete(List.of(userKey, CHANNEL_KEY_PREFIX + o.toString()));
+            redisTemplate.delete(List.of(userKey, SESSION_KEY_PREFIX + o.toString()));
         }
     }
 }

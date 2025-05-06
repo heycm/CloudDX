@@ -23,14 +23,12 @@ public class MessagingServiceImpl implements MessagingService {
     }
 
     @Override
-    public void ping(String channelId) {
-        String destination = String.format("/queue/heartbeat/%s", channelId);
-        messagingTemplate.convertAndSend(destination, "ping");
+    public void ping(String sessionId) {
+        messagingTemplate.convertAndSendToUser(sessionId, "/heartbeat", "ping");
     }
 
     @Override
-    public void pong(String channelId) {
-        String destination = String.format("/queue/heartbeat/%s", channelId);
-        messagingTemplate.convertAndSend(destination, "pong");
+    public void pong(String sessionId) {
+        messagingTemplate.convertAndSendToUser(sessionId, "/heartbeat", "pong");
     }
 }

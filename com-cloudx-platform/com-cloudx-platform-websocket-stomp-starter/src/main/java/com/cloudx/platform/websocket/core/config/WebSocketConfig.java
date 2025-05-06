@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**
@@ -40,15 +41,22 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint(webSocketProperties.getEndpoint())
                 .addInterceptors(authHandshakeInterceptor())
                 .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
-                .withSockJS();
+                .withSockJS()
+                .setHeartbeatTime(webSocketProperties.getHeartbeat().getCheckInterval());
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes(webSocketProperties.getDestinationPrefixe())
-                .enableStompBrokerRelay(webSocketProperties.getSimpleBroker())
+        registry.setApplicationDestinationPrefixes(webSocketProperties.getAppDestPrefix())
+                .enableStompBrokerRelay(webSocketProperties.getClientDestPrefix())
                 .setRelayHost(webSocketProperties.getRedis().getHost())
                 .setRelayPort(webSocketProperties.getRedis().getPort())
                 .setSystemPasscode(webSocketProperties.getRedis().getPassword());
+    }
+
+    @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        registry.setSendTimeLimit(webSocketProperties.getSendTimeLimit())
+                .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit());
     }
 }

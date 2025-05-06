@@ -21,12 +21,12 @@ public class WebSocketProperties {
     /**
      * 客户端订阅地址前缀
      **/
-    private String simpleBroker = "/topic";
+    private String clientDestPrefix = "/user";
 
     /**
      * 服务端消息处理地址前缀
      */
-    private String destinationPrefixe = "/app";
+    private String appDestPrefix = "/app";
 
     /**
      * 是否启用认证
@@ -37,6 +37,16 @@ public class WebSocketProperties {
      * 允许跨域访问的域名
      */
     private String[] allowedOrigins = {"*"};
+
+    /**
+     * 发送消息超时时间(ms)
+     */
+    private int sendTimeLimit = 5000;
+
+    /**
+     * 发送缓存大小限制(byte)
+     */
+    private int sendBufferSizeLimit = 1024 * 1024;
 
     /**
      * Redis 消息中转配置
