@@ -2,6 +2,7 @@ package com.cloudx.platform.websocket.core.heartbeat;
 
 import com.cloudx.platform.websocket.autoconfigure.WebSocketProperties;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  * 心跳监控
@@ -16,6 +17,8 @@ public class HeartbeatMonitor {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final WebSocketProperties.Heartbeat heartbeat;
+
+    SimpMessagingTemplate simpMessagingTemplate;
 
     public HeartbeatMonitor(RedisTemplate<String, Object> redisTemplate, WebSocketProperties webSocketProperties) {
         this.redisTemplate = redisTemplate;

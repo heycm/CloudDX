@@ -1,5 +1,6 @@
 package com.cloudx.platform.websocket.autoconfigure;
 
+import com.cloudx.platform.websocket.core.auth.AuthResult;
 import com.cloudx.platform.websocket.core.auth.WebSocketAuthenticator;
 import com.cloudx.platform.websocket.core.config.WebSocketConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,11 @@ public class WebSocketAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public WebSocketAuthenticator webSocketAuthenticator() {
-        return (request, response) -> true;
+        return (request) -> {
+            AuthResult result = new AuthResult();
+            result.setSuccess(true);
+            result.setUserId("guest");
+            return result;
+        };
     }
 }

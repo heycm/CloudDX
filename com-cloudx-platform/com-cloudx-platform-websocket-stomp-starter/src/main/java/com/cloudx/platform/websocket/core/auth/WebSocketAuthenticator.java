@@ -14,8 +14,7 @@ public interface WebSocketAuthenticator {
     /**
      * 连接认证
      * @param request  请求
-     * @param response 响应
-     * @return 认证结果：返回 false 则拒绝连接，使用 response 设置响应码和错误信息
+     * @return 认证结果
      */
-    boolean authenticate(ServerHttpRequest request, ServerHttpResponse response);
+    AuthResult authenticate(ServerHttpRequest request);
 }
