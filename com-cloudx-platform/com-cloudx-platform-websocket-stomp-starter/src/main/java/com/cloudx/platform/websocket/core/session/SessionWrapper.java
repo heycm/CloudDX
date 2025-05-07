@@ -1,7 +1,9 @@
 package com.cloudx.platform.websocket.core.session;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -52,5 +54,9 @@ public class SessionWrapper implements Serializable {
     public void updateHeartbeat() {
         this.lastHeartbeatTime = System.currentTimeMillis();
         this.pingAttempts = 0;
+    }
+
+    public void incrementPingAttempt() {
+        this.pingAttempts++;
     }
 }

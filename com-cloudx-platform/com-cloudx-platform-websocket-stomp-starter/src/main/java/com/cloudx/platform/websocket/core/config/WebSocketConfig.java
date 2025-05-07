@@ -2,7 +2,10 @@ package com.cloudx.platform.websocket.core.config;
 
 import com.cloudx.platform.websocket.autoconfigure.WebSocketProperties;
 import com.cloudx.platform.websocket.core.auth.WebSocketAuthenticator;
-import com.cloudx.platform.websocket.interceptor.AuthHandshakeInterceptor;
+import com.cloudx.platform.websocket.core.decorator.CompressionDecorator;
+import com.cloudx.platform.websocket.core.decorator.ConnectionDecorator;
+import com.cloudx.platform.websocket.core.interceptor.AuthHandshakeInterceptor;
+import com.cloudx.platform.websocket.core.repository.SessionRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -10,6 +13,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
+import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**
@@ -26,20 +30,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final WebSocketAuthenticator webSocketAuthenticator;
 
-    public WebSocketConfig(WebSocketProperties webSocketProperties, WebSocketAuthenticator webSocketAuthenticator) {
+    private final SessionRepository sessionRepository;
+
+    public WebSocketConfig(WebSocketProperties webSocketProperties, WebSocketAuthenticator webSocketAuthenticator, SessionRepository sessionRepository) {
         this.webSocketProperties = webSocketProperties;
         this.webSocketAuthenticator = webSocketAuthenticator;
-    }
-
-    @Bean
-    public HandshakeInterceptor authHandshakeInterceptor() {
-        return new AuthHandshakeInterceptor(webSocketAuthenticator, webSocketProperties.isAuthEnabled());
+        this.sessionRepository = sessionRepository;
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(webSocketProperties.getEndpoint())
-                .addInterceptors(authHandshakeInterceptor())
+                .addInterceptors(new AuthHandshakeInterceptor(webSocketAuthenticator, webSocketProperties.isAuthEnabled()))
                 .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
                 .withSockJS()
                 .setHeartbeatTime(webSocketProperties.getHeartbeat().getCheckInterval());
@@ -57,6 +59,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
         registry.setSendTimeLimit(webSocketProperties.getSendTimeLimit())
-                .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit());
+                .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit())
+                .addDecoratorFactory(session -> {
+                    WebSocketHandlerDecorator delegate = new CompressionDecorator(session);
+                    delegate = new ConnectionDecorator(delegate, sessionRepository);
+                    return delegate;
+                });
     }
 }

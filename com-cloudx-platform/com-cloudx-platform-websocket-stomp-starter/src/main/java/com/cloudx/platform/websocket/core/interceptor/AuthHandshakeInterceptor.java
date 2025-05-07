@@ -1,4 +1,4 @@
-package com.cloudx.platform.websocket.interceptor;
+package com.cloudx.platform.websocket.core.interceptor;
 
 import com.cloudx.common.tools.UUIDUtil;
 import com.cloudx.platform.websocket.core.auth.AuthResult;
