@@ -44,7 +44,12 @@ public class SessionWrapper implements Serializable {
     /**
      * 尝试ping心跳次数
      */
-    private int pingAttempts = 0;
+    private int pingAttempts;
+
+    /**
+     * 最后一次ping心跳时间
+     */
+    private long lastPingTime;
 
     public SessionWrapper(String sessionId, String userId) {
         this.sessionId = sessionId;
@@ -54,9 +59,11 @@ public class SessionWrapper implements Serializable {
     public void updateHeartbeat() {
         this.lastHeartbeatTime = System.currentTimeMillis();
         this.pingAttempts = 0;
+        this.lastPingTime = 0;
     }
 
     public void incrementPingAttempt() {
         this.pingAttempts++;
+        this.lastPingTime = System.currentTimeMillis();
     }
 }
