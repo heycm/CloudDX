@@ -28,7 +28,6 @@
     <module>com-cloudx-platform-oss</module>
     <module>com-cloudx-platform-sentinel-starter</module>
     <module>com-cloudx-platform-encrypt-starter</module>
-      <module>com-cloudx-platform-websocket-starter</module>
     <module>com-cloudx-platform-websocket-stomp-starter</module>
   </modules>
 
