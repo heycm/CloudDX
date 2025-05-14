@@ -1,6 +1,6 @@
 package com.cloudx.platform.websocket.core.decorator;
 
-import com.cloudx.platform.websocket.core.repository.SessionRepository;
+import com.cloudx.platform.websocket.repository.SessionRepository;
 import com.cloudx.platform.websocket.core.session.SessionWrapper;
 import com.cloudx.platform.websocket.core.session.WebSocketSessionLocalStorage;
 import org.springframework.web.socket.CloseStatus;
