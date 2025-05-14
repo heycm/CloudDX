@@ -18,6 +18,16 @@
       <artifactId>com-cloudx-common-web</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-redis-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-websocket-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
 </project>
