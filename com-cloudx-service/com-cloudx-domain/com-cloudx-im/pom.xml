@@ -13,7 +13,11 @@
   <description>Domain - 即时通讯</description>
 
   <dependencies>
-
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-common-web</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
 </project>
