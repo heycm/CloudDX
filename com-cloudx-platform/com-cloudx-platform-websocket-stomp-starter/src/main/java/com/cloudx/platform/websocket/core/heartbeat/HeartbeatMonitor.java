@@ -6,6 +6,7 @@ import com.cloudx.platform.websocket.autoconfigure.WebSocketProperties;
 import com.cloudx.platform.websocket.constant.ServerConstant;
 import com.cloudx.platform.websocket.core.session.SessionWrapper;
 import com.cloudx.platform.websocket.core.session.WebSocketSessionLocalStorage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.springframework.util.StopWatch;
 
 /**
  * 心跳监控
@@ -28,12 +30,12 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @since 2025/4/30 23:05
  */
+@Slf4j
 public class HeartbeatMonitor {
 
     private static final String SESSION_CLOSE_QUEUE = "websocket:session:close:queue";
 
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-
 
     private final WebSocketProperties.Heartbeat heartbeatConfig;
 
@@ -62,6 +64,14 @@ public class HeartbeatMonitor {
     }
 
     private void checkHeartbeats() {
+
+        StopWatch  stopWatch = null;
+        if (log.isDebugEnabled()) {
+            stopWatch = new StopWatch();
+            stopWatch.start();
+            log.debug("[WebSocket HeartbeatMonitor] start checking connections heartbeat...");
+        }
+
         long currentTime = System.currentTimeMillis();
         String sessionKeys = ServerConstant.SESSION_KEY_PREFIX + "*";
         int batchSize = 1000;
@@ -83,6 +93,10 @@ public class HeartbeatMonitor {
             }
         }
 
+        if (log.isDebugEnabled()) {
+            stopWatch.stop();
+            log.debug("[WebSocket HeartbeatMonitor] checking connections heartbeat finished, cost {} ms", stopWatch.getTotalTimeMillis());
+        }
     }
 
     private void processBatchHeartbeats(List<byte[]> batchSessionKeys, long currentTime) {
