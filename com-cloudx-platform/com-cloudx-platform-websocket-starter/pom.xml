@@ -9,7 +9,7 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>com-cloudx-platform-websocket-stomp-starter</artifactId>
+  <artifactId>com-cloudx-platform-websocket-starter</artifactId>
   <description>使用 stomp 协议的 WebSocket 组件</description>
 
   <dependencies>
