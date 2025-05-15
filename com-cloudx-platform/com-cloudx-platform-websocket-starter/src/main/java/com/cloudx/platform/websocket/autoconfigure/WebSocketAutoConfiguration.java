@@ -12,6 +12,7 @@ import com.cloudx.platform.websocket.repository.impl.RedisSessionReposiyory;
 import com.cloudx.platform.websocket.service.MessagingService;
 import com.cloudx.platform.websocket.service.MessagingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,7 +29,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  * @since 2025/4/30 21:41
  */
 @Configuration
-@ConditionalOnWebApplication
+// @ConditionalOnWebApplication
+@ConditionalOnBean(RedisTemplate.class)
 @EnableConfigurationProperties(WebSocketProperties.class)
 @Import({WebSocketConfig.class})
 @Slf4j
@@ -73,7 +75,7 @@ public class WebSocketAutoConfiguration {
         return new HeartbeatController(sessionRepository);
     }
 
-    @Bean
+    // @Bean
     public HeartbeatMonitor heartbeatMonitor(WebSocketProperties webSocketProperties, RedisTemplate<String, Object> redisTemplate,
             SimpMessagingTemplate simpMessagingTemplate) {
         return new HeartbeatMonitor(webSocketProperties.getHeartbeat(), redisTemplate, simpMessagingTemplate);

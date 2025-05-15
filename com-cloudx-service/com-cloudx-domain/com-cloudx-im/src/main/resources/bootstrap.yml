@@ -1,20 +1,4 @@
 
-server:
-  port: 8080
-
 spring:
   application:
     name: domain-im
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      timeout: 3000
-
-websocket:
-  redis:
-    host: ${spring.data.redis.host}
-    port: ${spring.data.redis.port}
-logging:
-  level:
-    com.cloudx: debug

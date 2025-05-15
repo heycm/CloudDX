@@ -28,6 +28,15 @@
       <artifactId>com-cloudx-platform-websocket-starter</artifactId>
       <version>1.0</version>
     </dependency>
+    <!--<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+    </dependency>-->
+    <!--<dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-log-starter</artifactId>
+      <version>1.0</version>
+    </dependency>-->
   </dependencies>
 
 </project>

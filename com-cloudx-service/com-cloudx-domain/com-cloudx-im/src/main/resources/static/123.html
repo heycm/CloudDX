@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>STOMP WebSocket测试工具</title>
+    <meta charset="UTF-8">
+    <style>
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; }
+        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; }
+        .status { padding: 5px; margin-left: 10px; }
+        .connected { background: #cfc; }
+        .disconnected { background: #fcc; }
+        pre { background: #f5f5f5; padding: 10px; max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 连接控制 -->
+        <div class="section">
+            <input type="text" id="url" placeholder="ws://地址" style="width: 300px;">
+            <button id="connectBtn">连接</button>
+            <span id="status" class="status disconnected">未连接</span>
+        </div>
+
+        <!-- 消息发送 -->
+        <div class="section">
+            <div>
+                <input type="text" id="destination" placeholder="目标地址" style="width: 200px;">
+                <input type="text" id="message" placeholder="消息内容" style="width: 300px;">
+                <button id="sendBtn" disabled>发送</button>
+            </div>
+        </div>
+
+        <!-- 主题订阅 -->
+        <div class="section">
+            <div>
+                <input type="text" id="topic" placeholder="订阅主题" style="width: 200px;">
+                <button id="subscribeBtn" disabled>订阅</button>
+            </div>
+        </div>
+
+        <!-- 消息显示 -->
+        <div class="section">
+            <h3>接收消息：</h3>
+            <pre id="messages"></pre>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script>
+        let stompClient = null;
+        const subscriptions = new Map(); // 存储订阅对象
+
+        // 元素引用
+        const connectBtn = document.getElementById('connectBtn');
+        const statusElem = document.getElementById('status');
+        const sendBtn = document.getElementById('sendBtn');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const messagesElem = document.getElementById('messages');
+
+        // 连接/断开处理
+        connectBtn.addEventListener('click', () => {
+            if (stompClient?.connected) {
+                disconnect();
+            } else {
+                connect();
+            }
+        });
+
+        // 发送消息
+        sendBtn.addEventListener('click', () => {
+            const destination = document.getElementById('destination').value;
+            const message = document.getElementById('message').value;
+            
+            if (stompClient && destination) {
+                stompClient.publish({
+                    destination: destination,
+                    body: message
+                });
+                logMessage(`已发送到 ${destination}: ${message}`);
+            }
+        });
+
+        // 订阅主题
+        subscribeBtn.addEventListener('click', () => {
+            const topic = document.getElementById('topic').value;
+            if (!topic || subscriptions.has(topic)) return;
+
+            const subscription = stompClient.subscribe(topic, (message) => {
+                logMessage(`[${topic}] 收到消息: ${message.body}`);
+            });
+
+            subscriptions.set(topic, subscription);
+            logMessage(`已订阅主题: ${topic}`);
+        });
+
+        function connect() {
+            let url = document.getElementById('url').value;
+            if (!url) {
+                url = 'ws://localhost:8080/gs-guide-websocket';
+            };
+
+            stompClient = new StompJs.Client({
+                brokerURL: url,
+                // reconnectDelay: 5000,
+                heartbeatIncoming: 4000,
+                heartbeatOutgoing: 4000,
+            });
+
+            stompClient.onConnect = (frame) => {
+                updateUI(true);
+                logMessage('连接成功');
+                console.log(frame);
+            };
+
+            stompClient.onWebSocketError = (error) => {
+                console.error('WebSocket错误:', error);
+                logMessage('连接错误: ' + error.type);
+            };
+
+            stompClient.onStompError = (frame) => {
+                console.error('STOMP协议错误:', frame.headers.message);
+                logMessage('STOMP错误: ' + frame.headers.message);
+            };
+
+            stompClient.activate();
+        }
+
+        function disconnect() {
+            if (stompClient) {
+                subscriptions.forEach((sub, topic) => {
+                    sub.unsubscribe();
+                    logMessage(`已取消订阅: ${topic}`);
+                });
+                subscriptions.clear();
+                
+                stompClient.deactivate();
+                updateUI(false);
+                logMessage('已断开连接');
+            }
+        }
+
+        function updateUI(connected) {
+            connectBtn.textContent = connected ? '断开连接' : '连接';
+            statusElem.textContent = connected ? '已连接' : '未连接';
+            statusElem.className = 'status ' + (connected ? 'connected' : 'disconnected');
+            sendBtn.disabled = !connected;
+            subscribeBtn.disabled = !connected;
+        }
+
+        function logMessage(message) {
+            messagesElem.textContent += `${new Date().toLocaleTimeString()} - ${message}\n`;
+            messagesElem.scrollTop = messagesElem.scrollHeight; // 自动滚动到底部
+        }
+    </script>
+</body>
+</html>

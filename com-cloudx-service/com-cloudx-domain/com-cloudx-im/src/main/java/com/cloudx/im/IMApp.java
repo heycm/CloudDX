@@ -12,15 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025/5/14 22:07
  */
 @SpringBootApplication
-@RestController
 public class IMApp {
 
     public static void main(String[] args) {
         SpringApplication.run(IMApp.class, args);
-    }
-
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
     }
 }

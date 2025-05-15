@@ -21,12 +21,17 @@ public class WebSocketProperties {
     /**
      * 客户端订阅地址前缀
      **/
-    private String[] clientDestPrefix = {"/user", "/topic", "/broadcast"};
+    private String[] clientDestPrefixs = {"/topic", "/broadcast", "/user"};
+
+    /**
+     * 客户端订阅地址前缀（当前连接用户私人频道）
+     */
+    private String userDestPrefix = "/user";
 
     /**
      * 服务端消息处理地址前缀
      */
-    private String[] appDestPrefix = {"/app"};
+    private String[] appDestPrefixs = {"/app"};
 
     /**
      * 是否启用认证
