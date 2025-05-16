@@ -1,6 +1,7 @@
 package com.cloudx.platform.websocket.core.auth;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 认证结果
@@ -9,6 +10,7 @@ import lombok.Data;
  * @since 2025/5/6 18:14
  */
 @Data
+@Accessors(chain = true)
 public class AuthResult {
 
     private boolean success;

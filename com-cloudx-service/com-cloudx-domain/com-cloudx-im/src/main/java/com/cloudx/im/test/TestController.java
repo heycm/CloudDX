@@ -1,6 +1,8 @@
 package com.cloudx.im.test;
 
 import java.security.Principal;
+
+import com.cloudx.platform.websocket.service.MessagingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Controller;
 public class TestController {
 
     private final SimpMessagingTemplate messagingTemplate;
+
+    private final MessagingService messagingService;
 
     @MessageMapping("/test")
     public void test(String playload, SimpMessageHeaderAccessor accessor) {

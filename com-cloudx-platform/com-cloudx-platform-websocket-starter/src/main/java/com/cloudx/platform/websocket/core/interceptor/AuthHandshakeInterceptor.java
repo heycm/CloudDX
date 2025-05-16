@@ -35,11 +35,13 @@ public class AuthHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
             Map<String, Object> attributes) throws Exception {
         if (!authEnabled) {
+            attributes.put("USER_ID", "guest");
             return true;
         }
         AuthResult result = webSocketAuthenticator.authenticate(request);
-        if (!result.isSuccess()) {
-            sendError(response, result.getErrMsg());
+        if (result == null || !result.isSuccess()) {
+            String errmsg = result == null ? "Authentication failed" : result.getErrMsg();
+            sendError(response, errmsg);
             return false;
         }
         attributes.put("USER_ID", result.getUserId());
