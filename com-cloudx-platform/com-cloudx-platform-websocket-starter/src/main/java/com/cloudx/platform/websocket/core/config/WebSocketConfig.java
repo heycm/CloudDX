@@ -6,12 +6,16 @@ import com.cloudx.platform.websocket.core.decorator.CompressionDecorator;
 import com.cloudx.platform.websocket.core.decorator.ConnectionDecorator;
 import com.cloudx.platform.websocket.core.interceptor.AuthHandshakeInterceptor;
 import com.cloudx.platform.websocket.repository.SessionRepository;
+
 import java.security.Principal;
 import java.util.Map;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.config.StompBrokerRelayRegistration;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -56,7 +60,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setHandshakeHandler(new DefaultHandshakeHandler() {
                     @Override
                     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
-                            Map<String, Object> attributes) {
+                                                      Map<String, Object> attributes) {
                         final Object userId = attributes.get("USER_ID");
                         return () -> userId != null ? userId.toString() : null;
                     }
@@ -66,16 +70,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        // registry.setApplicationDestinationPrefixes(webSocketProperties.getAppDestPrefixs())
-        //         .enableStompBrokerRelay(webSocketProperties.getClientDestPrefixs())
-        //         .setRelayHost(webSocketProperties.getRedis().getHost())
-        //         .setRelayPort(webSocketProperties.getRedis().getPort())
-        //         .setSystemPasscode(webSocketProperties.getRedis().getPassword());
-
         registry.setApplicationDestinationPrefixes(webSocketProperties.getAppDestPrefixs())
-                .setUserDestinationPrefix(webSocketProperties.getUserDestPrefix())
-                .enableSimpleBroker(webSocketProperties.getClientDestPrefixs())
-                ;
+                .setUserDestinationPrefix(webSocketProperties.getUserDestPrefix());
+        if (webSocketProperties.getBrokerRelay() == WebSocketProperties.BrokerRelay.REDIS) {
+            StompBrokerRelayRegistration relay = registry.enableStompBrokerRelay(webSocketProperties.getClientDestPrefixs())
+                    .setRelayHost(webSocketProperties.getRedis().getHost())
+                    .setRelayPort(webSocketProperties.getRedis().getPort());
+            if (StringUtils.hasText(webSocketProperties.getRedis().getPassword())) {
+                relay.setSystemPasscode(webSocketProperties.getRedis().getPassword());
+            }
+        } else {
+            registry.enableSimpleBroker(webSocketProperties.getClientDestPrefixs());
+        }
     }
 
     @Override
@@ -87,7 +93,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //             delegate = new ConnectionDecorator(delegate, sessionRepository);
         //             return delegate;
         //         });
-
 
 
         registry.addDecoratorFactory(handler -> {

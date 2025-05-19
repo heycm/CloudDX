@@ -12,6 +12,7 @@ spring:
 websocket:
   endpoint: /gs-guide-websocket
   auth-enabled: true
+  broker-relay: redis
   redis:
     host: ${spring.data.redis.host}
     port: ${spring.data.redis.port}

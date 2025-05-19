@@ -34,6 +34,10 @@
       <artifactId>reactor-netty</artifactId>
 <!--      <version>1.2.3</version>-->
     </dependency>
+    <!--<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-reactor-netty</artifactId>
+    </dependency>-->
   </dependencies>
 
 </project>

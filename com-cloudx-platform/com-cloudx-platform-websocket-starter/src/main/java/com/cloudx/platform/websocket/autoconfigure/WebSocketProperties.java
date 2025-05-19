@@ -54,14 +54,19 @@ public class WebSocketProperties {
     private int sendBufferSizeLimit = 1024 * 1024;
 
     /**
-     * Redis 消息中转配置
-     */
-    private RedisProperties redis = new RedisProperties();
-
-    /**
      * 心跳检查配置
      */
     private Heartbeat heartbeat = new Heartbeat();
+
+    /**
+     * 消息中转方式
+     */
+    private BrokerRelay brokerRelay = BrokerRelay.LOCAL;
+
+    /**
+     * Redis 消息中转配置
+     */
+    private RedisProperties redis = new RedisProperties();
 
     /**
      * Redis 配置项
@@ -110,5 +115,21 @@ public class WebSocketProperties {
          * 最大允许重试次数
          */
         private int maxRetries = 3;
+    }
+
+    /**
+     * 消息中转方式
+     */
+    public enum BrokerRelay {
+
+        /**
+         * 本地消息中转
+         */
+        LOCAL,
+
+        /**
+         * Redis 消息中转
+         */
+        REDIS;
     }
 }
