@@ -12,37 +12,37 @@ public interface GroupRepository {
 
     /**
      * 加入群组
-     * @param groupId   群组ID
-     * @param sessionId 会话ID
+     * @param groupId 群组ID
+     * @param user    用户
      */
-    void join(String groupId, String sessionId);
+    void join(String groupId, String user);
 
     /**
      * 退出群组
-     * @param groupId   群组ID
-     * @param sessionId 会话ID
-     */
-    void leave(String groupId, String sessionId);
-
-    /**
-     * 获取群组成员数量
      * @param groupId 群组ID
-     * @return
+     * @param user    用户
      */
-    long getGroupMemberCount(String groupId);
-
-    /**
-     * 获取会话加入群组的数量
-     * @param sessionId 会话ID
-     * @return
-     */
-    long getSessionGroupCount(String sessionId);
+    void leave(String groupId, String user);
 
     /**
      * 退出所有群组
-     * @param sessionId 会话ID
+     * @param user 用户
      */
-    void leaveAll(String sessionId);
+    void leaveAll(String user);
+
+    /**
+     * 获取群组成员数量
+     * @param groupId 群组
+     * @return
+     */
+    long getGroupMemberSize(String groupId);
+
+    /**
+     * 获取用户加入群组的数量
+     * @param user 用户
+     * @return
+     */
+    long getJoinSize(String user);
 
     /**
      * 获取群组成员

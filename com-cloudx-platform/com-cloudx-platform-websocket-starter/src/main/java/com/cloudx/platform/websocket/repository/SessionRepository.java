@@ -18,27 +18,14 @@ public interface SessionRepository {
 
     /**
      * 获取会话
-     * @param sessionId 会话ID
+     * @param user 用户
      * @return 会话
      */
-    SessionWrapper getSession(String sessionId);
-
-    /**
-     * 获取用户会话
-     * @param userId 用户ID
-     * @return 会话
-     */
-    SessionWrapper getUser(String userId);
+    SessionWrapper get(String user);
 
     /**
      * 删除会话
-     * @param sessionId 会话ID
+     * @param user 用户
      */
-    void removeSession(String sessionId);
-
-    /**
-     * 删除用户会话
-     * @param userId 用户ID
-     */
-    void removeUser(String userId);
+    void remove(String user);
 }

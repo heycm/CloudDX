@@ -9,14 +9,24 @@ package com.cloudx.platform.websocket.constant;
 public interface ServerConstant {
 
     /**
-     * 会话缓存key前缀：websocket:session:{sessionId} -> session
+     * 用户会话标识
+     */
+    String ATTRIBUTE_USER_KEY = "CLOUDX_USER_ID";
+
+    /**
+     * 会话缓存key前缀：websocket:session:{userId} -> session
      */
     String SESSION_KEY_PREFIX = "websocket:session:";
 
     /**
-     * 用户缓存key前缀：websocket:user:{userId} -> sessionId
+     * 群组缓存key前缀：websocket:group:{groupId} -> [user1,user2]
      */
-    String USER_KEY_PREFIX = "websocket:user:";
+    String GROUP_KEY_PREFIX = "websocket:group:";
+
+    /**
+     * 会话加入群组缓存key前缀：websocket:group:session:join:{user} -> [groupId1,groupId2]
+     */
+    String GROUP_JOIN_PREFIX = "websocket:group:session:join:";
 
     /**
      * 服务端主动ping客户端地址

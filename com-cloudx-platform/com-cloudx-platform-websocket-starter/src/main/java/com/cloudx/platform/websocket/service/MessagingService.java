@@ -1,5 +1,7 @@
 package com.cloudx.platform.websocket.service;
 
+import java.util.Set;
+
 /**
  * 消息服务
  * @author heycm
@@ -10,20 +12,19 @@ public interface MessagingService {
 
     /**
      * [私密频道] 发送消息
-     * @param sessionId   会话id
+     * @param user        目标用户
      * @param destination 地址
      * @param payload     消息
      */
-    void sendTo(String sessionId, String destination, Object payload);
+    void sendToUser(String user, String destination, Object payload);
 
     /**
-     * [私密频道] 发送群组消息
-     * @param senderId    发送者会话id
-     * @param groupId     群组id
+     * [私密频道] 群发消息
+     * @param users       用户集合
      * @param destination 地址
      * @param payload     消息
      */
-    void sendGroup(String senderId, String groupId, String destination, Object payload);
+    void sendToUsers(Set<String> users, String destination, Object payload);
 
     /**
      * [公开频道] 发送主题消息，订阅频道 [/{destinationPrefix}/{topicId}] 即可收到消息

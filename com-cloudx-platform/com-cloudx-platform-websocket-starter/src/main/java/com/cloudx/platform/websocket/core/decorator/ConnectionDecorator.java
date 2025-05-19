@@ -1,5 +1,6 @@
 package com.cloudx.platform.websocket.core.decorator;
 
+import com.cloudx.platform.websocket.constant.ServerConstant;
 import com.cloudx.platform.websocket.repository.SessionRepository;
 import com.cloudx.platform.websocket.core.session.SessionWrapper;
 import com.cloudx.platform.websocket.core.session.WebSocketSessionLocalStorage;
@@ -26,17 +27,18 @@ public class ConnectionDecorator extends WebSocketHandlerDecorator {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String sessionId = session.getId();
-        String userId = (String) session.getAttributes().get("USER_ID");
+        String userId = (String) session.getAttributes().get(ServerConstant.ATTRIBUTE_USER_KEY);
         SessionWrapper sessionWrapper = new SessionWrapper(sessionId, userId);
         sessionRepository.save(sessionWrapper);
-        WebSocketSessionLocalStorage.put(session);
+        WebSocketSessionLocalStorage.put(userId, session);
         super.afterConnectionEstablished(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        WebSocketSessionLocalStorage.remove(session.getId());
-        sessionRepository.removeSession(session.getId());
+        String userId = (String) session.getAttributes().get(ServerConstant.ATTRIBUTE_USER_KEY);
+        WebSocketSessionLocalStorage.remove(userId);
+        sessionRepository.remove(userId);
         super.afterConnectionClosed(session, closeStatus);
     }
 }

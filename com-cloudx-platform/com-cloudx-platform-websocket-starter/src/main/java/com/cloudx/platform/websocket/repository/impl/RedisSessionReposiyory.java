@@ -30,16 +30,14 @@ public class RedisSessionReposiyory implements SessionRepository {
 
     @Override
     public void save(SessionWrapper session) {
-        String sessionKey = ServerConstant.SESSION_KEY_PREFIX + session.getSessionId();
+        String sessionKey = ServerConstant.SESSION_KEY_PREFIX + session.getUserId();
         Map m = Jackson.toObject(Jackson.toJson(session), Map.class);
         redisTemplate.boundHashOps(sessionKey).putAll(m);
-        String userKey = ServerConstant.USER_KEY_PREFIX + session.getUserId();
-        redisTemplate.boundValueOps(userKey).set(session.getSessionId());
     }
 
     @Override
-    public SessionWrapper getSession(String sessionId) {
-        String sessionKey = ServerConstant.SESSION_KEY_PREFIX + sessionId;
+    public SessionWrapper get(String user) {
+        String sessionKey = ServerConstant.SESSION_KEY_PREFIX + user;
         Map<Object, Object> entries = redisTemplate.boundHashOps(sessionKey).entries();
         if (CollectionUtils.isEmpty(entries)) {
             return null;
@@ -48,35 +46,9 @@ public class RedisSessionReposiyory implements SessionRepository {
     }
 
     @Override
-    public SessionWrapper getUser(String userId) {
-        String userKey = ServerConstant.USER_KEY_PREFIX + userId;
-        Object o = redisTemplate.boundValueOps(userKey).get();
-        if (o == null) {
-            return null;
-        }
-        return getSession(o.toString());
-    }
-
-    @Override
-    public void removeSession(String sessionId) {
-        SessionWrapper session = getSession(sessionId);
-        if (session != null) {
-            String sessionKey = ServerConstant.SESSION_KEY_PREFIX + sessionId;
-            redisTemplate.delete(sessionKey);
-            String userKey = ServerConstant.USER_KEY_PREFIX + session.getUserId();
-            redisTemplate.delete(userKey);
-            groupRepository.leaveAll(sessionId);
-        }
-    }
-
-    @Override
-    public void removeUser(String userId) {
-        String userKey = ServerConstant.USER_KEY_PREFIX + userId;
-        Object o = redisTemplate.boundValueOps(userKey).get();
-        if (o != null) {
-            String sessionId = ServerConstant.SESSION_KEY_PREFIX + o;
-            redisTemplate.delete(List.of(userKey, sessionId));
-            groupRepository.leaveAll(sessionId);
-        }
+    public void remove(String user) {
+        String sessionKey = ServerConstant.SESSION_KEY_PREFIX + user;
+        redisTemplate.delete(sessionKey);
+        groupRepository.leaveAll(user);
     }
 }

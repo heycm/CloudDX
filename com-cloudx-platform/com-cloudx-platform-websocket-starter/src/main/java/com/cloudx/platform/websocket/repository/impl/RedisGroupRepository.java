@@ -1,5 +1,6 @@
 package com.cloudx.platform.websocket.repository.impl;
 
+import com.cloudx.platform.websocket.constant.ServerConstant;
 import com.cloudx.platform.websocket.repository.GroupRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
@@ -17,16 +18,6 @@ import java.util.stream.Collectors;
  */
 public class RedisGroupRepository implements GroupRepository {
 
-    /**
-     * 群组KEY前缀
-     */
-    private static final String GROUP_KEY_PREFIX = "websocket:group:";
-
-    /**
-     * 会话加入群组KEY前缀，记录会话加入的群组ID
-     */
-    private static final String SESSION_JOIN_KEY_PREFIX = "websocket:group:session:join:";
-
     private final RedisTemplate<String, Object> redisTemplate;
 
     public RedisGroupRepository(RedisTemplate<String, Object> redisTemplate) {
@@ -35,49 +26,49 @@ public class RedisGroupRepository implements GroupRepository {
 
     @Override
     public void join(String groupId, String sessionId) {
-        String groupKey = GROUP_KEY_PREFIX + groupId;
+        String groupKey = ServerConstant.GROUP_KEY_PREFIX + groupId;
         redisTemplate.boundSetOps(groupKey).add(sessionId);
-        String joinKey = SESSION_JOIN_KEY_PREFIX + sessionId;
+        String joinKey = ServerConstant.GROUP_JOIN_PREFIX + sessionId;
         redisTemplate.boundSetOps(joinKey).add(groupId);
     }
 
     @Override
     public void leave(String groupId, String sessionId) {
-        String groupKey = GROUP_KEY_PREFIX + groupId;
+        String groupKey = ServerConstant.GROUP_KEY_PREFIX + groupId;
         Long removed = redisTemplate.boundSetOps(groupKey).remove(sessionId);
-        if (removed != null && removed > 0 && this.getGroupMemberCount(groupId) == 0) {
+        if (removed != null && removed > 0 && this.getGroupMemberSize(groupId) == 0) {
             redisTemplate.delete(groupKey);
         }
-        String joinKey = SESSION_JOIN_KEY_PREFIX + sessionId;
+        String joinKey = ServerConstant.GROUP_JOIN_PREFIX + sessionId;
         removed = redisTemplate.boundSetOps(joinKey).remove(groupId);
-        if (removed != null && removed > 0 && this.getSessionGroupCount(groupId) == 0) {
+        if (removed != null && removed > 0 && this.getJoinSize(groupId) == 0) {
             redisTemplate.delete(joinKey);
         }
     }
 
     @Override
-    public long getGroupMemberCount(String groupId) {
-        Long size = redisTemplate.boundSetOps(GROUP_KEY_PREFIX + groupId).size();
+    public long getGroupMemberSize(String groupId) {
+        Long size = redisTemplate.boundSetOps(ServerConstant.GROUP_KEY_PREFIX + groupId).size();
         return Optional.ofNullable(size).map(Long::intValue).orElse(0);
     }
 
     @Override
-    public long getSessionGroupCount(String sessionId) {
-        Long size = redisTemplate.boundSetOps(SESSION_JOIN_KEY_PREFIX + sessionId).size();
+    public long getJoinSize(String sessionId) {
+        Long size = redisTemplate.boundSetOps(ServerConstant.GROUP_JOIN_PREFIX + sessionId).size();
         return Optional.ofNullable(size).map(Long::intValue).orElse(0);
     }
 
     @Override
     public void leaveAll(String sessionId) {
         // 获取该通道加入的群组集合
-        String joinKey = SESSION_JOIN_KEY_PREFIX + sessionId;
+        String joinKey = ServerConstant.GROUP_JOIN_PREFIX + sessionId;
         Set<Object> members = redisTemplate.boundSetOps(joinKey).members();
         if (!CollectionUtils.isEmpty(members)) {
             for (Object groupId : members) {
                 // 依次退出群组，如果是最后一个成员，则解散群组
-                String groupKey = GROUP_KEY_PREFIX + groupId;
+                String groupKey = ServerConstant.GROUP_KEY_PREFIX + groupId;
                 Long remove = redisTemplate.boundSetOps(groupKey).remove(sessionId);
-                if (remove != null && remove > 0 && this.getGroupMemberCount(groupId.toString()) == 0) {
+                if (remove != null && remove > 0 && this.getGroupMemberSize(groupId.toString()) == 0) {
                     redisTemplate.delete(groupKey);
                 }
             }
@@ -88,8 +79,9 @@ public class RedisGroupRepository implements GroupRepository {
 
     @Override
     public Set<String> getGroupMembers(String groupId) {
-        String groupKey = GROUP_KEY_PREFIX + groupId;
+        String groupKey = ServerConstant.GROUP_KEY_PREFIX + groupId;
         Set<Object> members = redisTemplate.boundSetOps(groupKey).members();
-        return CollectionUtils.isEmpty(members) ? Collections.emptySet() : members.stream().map(Object::toString).collect(Collectors.toSet());
+        return CollectionUtils.isEmpty(members) ? Collections.emptySet()
+                : members.stream().map(Object::toString).collect(Collectors.toSet());
     }
 }

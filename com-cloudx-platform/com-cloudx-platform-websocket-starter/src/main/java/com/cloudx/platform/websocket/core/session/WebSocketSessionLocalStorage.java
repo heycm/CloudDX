@@ -15,22 +15,22 @@ public class WebSocketSessionLocalStorage {
 
     private static final Map<String, WebSocketSession> SESSIONS = new ConcurrentHashMap<>();
 
-    public static WebSocketSession get(String sessionId) {
-        return SESSIONS.get(sessionId);
+    public static WebSocketSession get(String user) {
+        return SESSIONS.get(user);
     }
 
-    public static void put(WebSocketSession session) {
-        SESSIONS.put(session.getId(), session);
+    public static void put(String user, WebSocketSession session) {
+        SESSIONS.put(user, session);
     }
 
-    public static void remove(String sessionId) {
-        SESSIONS.remove(sessionId);
+    public static void remove(String user) {
+        SESSIONS.remove(user);
     }
 
-    public static boolean close(String sessionId) {
-        WebSocketSession session = get(sessionId);
+    public static boolean close(String user) {
+        WebSocketSession session = get(user);
         if (session != null) {
-            remove(sessionId);
+            remove(user);
             if (session.isOpen()) {
                 try {
                     session.close();
@@ -41,5 +41,9 @@ public class WebSocketSessionLocalStorage {
             return true;
         }
         return false;
+    }
+
+    public static boolean exists(String user) {
+        return SESSIONS.containsKey(user);
     }
 }

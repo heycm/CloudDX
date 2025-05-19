@@ -61,39 +61,7 @@ public class WebSocketProperties {
     /**
      * 消息中转方式
      */
-    private BrokerRelay brokerRelay = BrokerRelay.LOCAL;
-
-    /**
-     * Redis 消息中转配置
-     */
-    private RedisProperties redis = new RedisProperties();
-
-    /**
-     * Redis 配置项
-     */
-    @Data
-    public static class RedisProperties {
-
-        /**
-         * Redis地址
-         */
-        private String host = "localhost";
-
-        /**
-         * Redis端口
-         */
-        private int port = 6379;
-
-        /**
-         * Redis密码
-         */
-        private String password;
-
-        /**
-         * Redis数据库索引
-         */
-        private int database = 0;
-    }
+    private BrokerRelay brokerRelay = BrokerRelay.Local;
 
     /**
      * 心跳检查配置
@@ -125,11 +93,21 @@ public class WebSocketProperties {
         /**
          * 本地消息中转
          */
-        LOCAL,
+        Local,
 
         /**
-         * Redis 消息中转
+         * Redis 消息中转（Redis不支持Stomp协议，实现方式为发布订阅机制）
          */
-        REDIS;
+        Redis,
+
+        /**
+         * RabbitMQ 消息中转（RabbitMQ支持Stomp协议）
+         */
+        RabbitMQ,
+
+        /**
+         * ActiveMQ 消息中转（ActiveMQ支持Stomp协议）
+         */
+        ActiveMQ;
     }
 }

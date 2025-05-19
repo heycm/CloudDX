@@ -16,28 +16,23 @@ import java.util.Set;
  */
 public class MessagingServiceImpl implements MessagingService {
 
-    private final GroupRepository groupRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
-    public MessagingServiceImpl(GroupRepository groupRepository, SimpMessagingTemplate simpMessagingTemplate) {
-        this.groupRepository = groupRepository;
+    public MessagingServiceImpl(SimpMessagingTemplate simpMessagingTemplate) {
         this.messagingTemplate = simpMessagingTemplate;
     }
 
     @Override
-    public void sendTo(String sessionId, String destination, Object payload) {
-        messagingTemplate.convertAndSendToUser(sessionId, destination, payload);
+    public void sendToUser(String user, String destination, Object payload) {
+        messagingTemplate.convertAndSendToUser(user, destination, payload);
     }
 
     @Override
-    public void sendGroup(String senderId, String groupId, String destination, Object payload) {
-        Set<String> members = groupRepository.getGroupMembers(groupId);
-        for (String member : members) {
-            if (!member.equals(senderId)) {
-                VirtualThread.execute(() -> {
-                    sendTo(member, destination, payload);
-                });
-            }
+    public void sendToUsers(Set<String> users, String destination, Object payload) {
+        for (String user : users) {
+            VirtualThread.execute(() -> {
+                sendToUser(user, destination, payload);
+            });
         }
     }
 

@@ -11,12 +11,15 @@ import com.cloudx.platform.websocket.repository.impl.RedisGroupRepository;
 import com.cloudx.platform.websocket.repository.impl.RedisSessionReposiyory;
 import com.cloudx.platform.websocket.service.MessagingService;
 import com.cloudx.platform.websocket.service.MessagingServiceImpl;
+import com.cloudx.platform.websocket.service.RedisMessagingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -64,9 +67,17 @@ public class WebSocketAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "websocket.broker-relay", havingValue = "Local", matchIfMissing = true)
     @ConditionalOnMissingBean
-    public MessagingService messagingService(GroupRepository groupRepository, SimpMessagingTemplate simpMessagingTemplate) {
-        return new MessagingServiceImpl(groupRepository, simpMessagingTemplate);
+    public MessagingService messagingService(SimpMessagingTemplate simpMessagingTemplate) {
+        return new MessagingServiceImpl(simpMessagingTemplate);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "websocket.broker-relay", havingValue = "Redis")
+    @ConditionalOnMissingBean
+    public MessagingService messagingService(SimpMessagingTemplate simpMessagingTemplate, RedisTemplate<String, Object> redisTemplate) {
+        return new RedisMessagingServiceImpl(redisTemplate, simpMessagingTemplate);
     }
 
     @Bean

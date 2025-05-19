@@ -4,27 +4,16 @@ import com.cloudx.platform.websocket.autoconfigure.WebSocketProperties;
 import com.cloudx.platform.websocket.core.auth.WebSocketAuthenticator;
 import com.cloudx.platform.websocket.core.decorator.CompressionDecorator;
 import com.cloudx.platform.websocket.core.decorator.ConnectionDecorator;
+import com.cloudx.platform.websocket.core.handshake.UserHandshakeHandler;
 import com.cloudx.platform.websocket.core.interceptor.AuthHandshakeInterceptor;
 import com.cloudx.platform.websocket.repository.SessionRepository;
-
-import java.security.Principal;
-import java.util.Map;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.messaging.simp.config.StompBrokerRelayRegistration;
-import org.springframework.util.StringUtils;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
-import org.springframework.web.socket.server.HandshakeInterceptor;
-import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 /**
  * WebSocket 配置
@@ -57,14 +46,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //         .setHeartbeatTime(webSocketProperties.getHeartbeat().getCheckInterval());
 
         registry.addEndpoint(webSocketProperties.getEndpoint())
-                .setHandshakeHandler(new DefaultHandshakeHandler() {
-                    @Override
-                    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
-                                                      Map<String, Object> attributes) {
-                        final Object userId = attributes.get("USER_ID");
-                        return () -> userId != null ? userId.toString() : null;
-                    }
-                })
+                .setHandshakeHandler(new UserHandshakeHandler())
                 .addInterceptors(new AuthHandshakeInterceptor(webSocketAuthenticator, webSocketProperties.isAuthEnabled()));
     }
 
@@ -72,43 +54,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes(webSocketProperties.getAppDestPrefixs())
                 .setUserDestinationPrefix(webSocketProperties.getUserDestPrefix());
-        if (webSocketProperties.getBrokerRelay() == WebSocketProperties.BrokerRelay.REDIS) {
-            StompBrokerRelayRegistration relay = registry.enableStompBrokerRelay(webSocketProperties.getClientDestPrefixs())
-                    .setRelayHost(webSocketProperties.getRedis().getHost())
-                    .setRelayPort(webSocketProperties.getRedis().getPort());
-            if (StringUtils.hasText(webSocketProperties.getRedis().getPassword())) {
-                relay.setSystemPasscode(webSocketProperties.getRedis().getPassword());
-            }
-        } else {
-            registry.enableSimpleBroker(webSocketProperties.getClientDestPrefixs());
-        }
+        registry.enableSimpleBroker(webSocketProperties.getClientDestPrefixs());
     }
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
-        // registry.setSendTimeLimit(webSocketProperties.getSendTimeLimit())
-        //         .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit())
-        //         .addDecoratorFactory(session -> {
-        //             WebSocketHandlerDecorator delegate = new CompressionDecorator(session);
-        //             delegate = new ConnectionDecorator(delegate, sessionRepository);
-        //             return delegate;
-        //         });
-
-
-        registry.addDecoratorFactory(handler -> {
-            WebSocketHandlerDecorator decorator = new WebSocketHandlerDecorator(handler) {
-                @Override
-                public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
-                    String id = session.getId();
-
-                    System.out.println("连接成功: " + id);
-                    session.getAttributes().put("XXXXXX123", id);
-
-                    super.afterConnectionEstablished(session);
-                }
-            };
-            return decorator;
-        });
+        registry.setSendTimeLimit(webSocketProperties.getSendTimeLimit())
+                .setSendBufferSizeLimit(webSocketProperties.getSendBufferSizeLimit())
+                .addDecoratorFactory(session -> {
+                    WebSocketHandlerDecorator delegate = new CompressionDecorator(session);
+                    delegate = new ConnectionDecorator(delegate, sessionRepository);
+                    return delegate;
+                });
     }
 }
