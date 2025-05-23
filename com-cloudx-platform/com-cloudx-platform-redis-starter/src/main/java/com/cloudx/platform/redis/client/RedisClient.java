@@ -3,6 +3,7 @@ package com.cloudx.platform.redis.client;
 import com.cloudx.platform.redis.geo.GeoSearch;
 import com.cloudx.platform.redis.geo.RedisGeo;
 import org.springframework.data.geo.Distance;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.script.RedisScript;
 
@@ -526,4 +527,17 @@ public interface RedisClient {
      */
     List<RedisGeo> search(GeoSearch search);
 
+    /**
+     * [发布/订阅] 发布消息
+     * @param channel 频道
+     * @param payload 消息
+     */
+    void publish(String channel, Object payload);
+
+    /**
+     * [发布/订阅] 订阅频道
+     * @param channelPattern 频道，支持通配符（如：topic.*）
+     * @param listener       监听器
+     */
+    void subscribe(String channelPattern, MessageListener listener);
 }

@@ -4,6 +4,7 @@ import com.cloudx.platform.redis.aspect.LimiterAspect;
 import com.cloudx.platform.redis.client.RedisClient;
 import com.cloudx.platform.redis.client.TenantRedisClientImpl;
 import com.cloudx.platform.redis.util.RedisUtil;
+import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -18,7 +19,12 @@ import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.stream.MapRecord;
+import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer.StreamMessageListenerContainerOptions;
 
 /**
  * Redis自动配置
@@ -75,9 +81,30 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnBean(RedisConnectionFactory.class)
+    public RedisMessageListenerContainer redisMessageListenerContainer(@Qualifier("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(redisConnectionFactory);
+        return container;
+    }
+
+    @Bean
+    @ConditionalOnBean(RedisConnectionFactory.class)
+    public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer(@Qualifier("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+        StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, MapRecord<String, String, String>> options
+                = StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
+                .batchSize(10)
+                .pollTimeout(Duration.ofMillis(100))
+                .build();
+        StreamMessageListenerContainer<String, MapRecord<String, String, String>> container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+        container.start();
+        return container;
+    }
+
+    @Bean
     @ConditionalOnBean(RedisTemplate.class)
-    public RedisClient redisClient(RedisTemplate<String, Object> redisTemplate) {
-        return new TenantRedisClientImpl(redisTemplate);
+    public RedisClient redisClient(RedisTemplate<String, Object> redisTemplate, RedisMessageListenerContainer redisMessageListenerContainer) {
+        return new TenantRedisClientImpl(redisTemplate, redisMessageListenerContainer);
     }
 
     @Bean

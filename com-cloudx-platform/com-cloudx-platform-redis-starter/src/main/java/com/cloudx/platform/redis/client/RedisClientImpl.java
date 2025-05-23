@@ -10,12 +10,18 @@ import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisGeoCommands;
+import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.domain.geo.GeoReference;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -34,8 +40,11 @@ public class RedisClientImpl implements RedisClient {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisClientImpl(RedisTemplate<String, Object> redisTemplate) {
+    private final RedisMessageListenerContainer listenerContainer;
+
+    public RedisClientImpl(RedisTemplate<String, Object> redisTemplate, RedisMessageListenerContainer listenerContainer) {
         this.redisTemplate = redisTemplate;
+        this.listenerContainer = listenerContainer;
     }
 
     /**
@@ -552,5 +561,15 @@ public class RedisClientImpl implements RedisClient {
                 return redisGeo;
             }).collect(Collectors.toList());
         });
+    }
+
+    @Override
+    public void publish(String channel, Object payload) {
+        redisTemplate.convertAndSend(channel, payload);
+    }
+
+    @Override
+    public void subscribe(String channelPattern, MessageListener listener) {
+        listenerContainer.addMessageListener(listener, new PatternTopic(channelPattern));
     }
 }
