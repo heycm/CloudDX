@@ -1,7 +1,5 @@
 package com.cloudx.platform.redis.stream.consumer;
 
-import com.cloudx.platform.redis.stream.message.DefaultRetryPolicy;
-import com.cloudx.platform.redis.stream.message.RetryPolicy;
 import lombok.Data;
 
 /**
@@ -13,17 +11,18 @@ import lombok.Data;
 @Data
 public class ParallelConsumer {
 
+    /**
+     * stream key
+     */
     private String streamKey;
 
+    /**
+     * 消费者组名称
+     */
     private String groupName;
 
-    private int concurrency;
-
-    private int batchSize = 50;
-
-    private long pollTimeout = 300;
-
-    private boolean autoAck = true;
-
-    private RetryPolicy retryPolicy = new DefaultRetryPolicy(3);
+    /**
+     * 组内消费者数量
+     */
+    private int concurrency = 1;
 }

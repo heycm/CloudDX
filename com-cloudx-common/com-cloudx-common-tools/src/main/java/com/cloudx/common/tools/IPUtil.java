@@ -14,20 +14,13 @@ import java.util.Enumeration;
  */
 public class IPUtil {
 
-    private static String LOCAL_IP_ADDRESS;
+    public static final String LOCAL_IP;
 
     static {
-        LOCAL_IP_ADDRESS = IPUtil.getLocalIpAddress();
+        LOCAL_IP = IPUtil.getLocalIpAddress();
     }
 
     private IPUtil() {
-    }
-
-    /**
-     * 获取本地IP
-     */
-    public static String getLocalIP() {
-        return LOCAL_IP_ADDRESS;
     }
 
     /**
