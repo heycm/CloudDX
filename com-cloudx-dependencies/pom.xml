@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cloudx</groupId>
+    <artifactId>com-cloudx-dependencies</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <name>cloudx-dependencies</name>
+    <description>ClouDX Dependencies</description>
+    <url>https://github.com/heycm/CloudDX</url>
+
+    <developers>
+        <developer>
+            <name>heycm</name>
+            <email>heycm@qq.com</email>
+            <url>https://heycm.cn</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <!-- 项目版本 -->
+        <revision>1.0</revision>
+        <java.version>21</java.version>
+        <project.encoding>UTF-8</project.encoding>
+        <!-- 插件版本 -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+    </properties>
+
+</project>
