@@ -30,6 +30,32 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <lombok.version>1.18.32</lombok.version>
+        <smart-doc.version>3.0.9</smart-doc.version>
+
+        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud-bootstrap.version>4.1.2</spring-cloud-bootstrap.version>
+        <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
+
+        <mysql-connector.version>8.3.0</mysql-connector.version>
+        <commons-pool2.version>2.12.0</commons-pool2.version>
+        <redisson.version>3.39.0</redisson.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <feign.okhttp.version>13.2.1</feign.okhttp.version>
+        <rocketmq.version>2.3.0</rocketmq.version>
+        <mybatis-starter.version>3.0.3</mybatis-starter.version>
+        <pagehelper-starter.version>2.1.0</pagehelper-starter.version>
+
+        <log4j2.version>2.23.1</log4j2.version>
+        <disruptor.version>4.0.0</disruptor.version>
+
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <tika.version>3.0.0</tika.version>
     </properties>
 
 </project>
