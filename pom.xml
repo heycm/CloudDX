@@ -9,7 +9,7 @@
   <version>1.0</version>
   <packaging>pom</packaging>
 
-  <description>Cloud-Heycm 根项目</description>
+  <description>CloudX 根项目</description>
 
   <modules>
     <module>com-cloudx-common</module>
@@ -67,6 +67,7 @@
     </dependency>
   </dependencies>
 
+  <!-- 依赖管理，注意优先级顺序，按顺序前面的优先级高 -->
   <dependencyManagement>
     <dependencies>
       <!-- Spring Boot -->
