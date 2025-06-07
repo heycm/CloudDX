@@ -2,7 +2,7 @@
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config" status="WARN" monitorInterval="30">
 
   <Properties>
-    <Property name="LOG_HOME" value="${sys:user.home}/logs/cloud-heycm/logs"/>
+    <Property name="LOG_HOME" value="${sys:user.home}/logs/cloudx/logs"/>
     <Property name="LOG_NAME" value="${spring:spring.application.name}"/>
     <Property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%t|%-4level|%X{TenantId}|%X{UID}|%X{TraceId}|%logger{5} | %m%n"/>
     <Property name="LOG_LEVEL" value="INFO"/>
