@@ -6,7 +6,7 @@
 
   <groupId>com.cloudx</groupId>
   <artifactId>com-cloudx-parent</artifactId>
-  <version>${revision}</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
 
   <description>CloudX 根项目</description>
@@ -16,6 +16,7 @@
     <module>com-cloudx-platform</module>
     <module>com-cloudx-service</module>
     <module>com-cloudx-admin</module>
+    <module>com-cloudx-job</module>
   </modules>
 
   <properties>
