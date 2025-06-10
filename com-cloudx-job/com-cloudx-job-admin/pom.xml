@@ -12,19 +12,12 @@
   <artifactId>com-cloudx-job-admin</artifactId>
   <description>XXL-JOB Admin 调度中心</description>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <dependencies>
+    <!-- bootstrap properties -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
     <!-- starter-web：spring-webmvc + autoconfigure + logback + yaml + tomcat -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

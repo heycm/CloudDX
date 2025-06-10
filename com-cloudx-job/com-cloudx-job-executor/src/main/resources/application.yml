@@ -1,0 +1,38 @@
+server:
+  port: 8100
+  shutdown: graceful
+  http2:
+    enabled: true
+  undertow:
+    threads:
+      io: 8
+      worker: 200
+    buffer-size: 1024
+    direct-buffers: true
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      external-file: ${user.home}/logs/cloudx/logs/${spring.application.name}/${spring.application.name}.log
+
+xxl:
+  job:
+    admin-addresses: http://127.0.0.1:8080/xxl-job-admin
+    access-token: default_token
+    appname: ${spring.application.name}
+    address:
+    ip:
+    port: 9999
+    log-path: ${user.home}/logs/cloudx/logs/${spring.application.name}/handler
+    log-retention-days: 30

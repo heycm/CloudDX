@@ -15,6 +15,7 @@
   <modules>
     <module>com-cloudx-job-core</module>
     <module>com-cloudx-job-admin</module>
+    <module>com-cloudx-job-executor</module>
   </modules>
 
   <properties>

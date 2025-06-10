@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: cloudx-job-admin
+  profiles:
+    active: prod
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.3.50:8848
+#        username: cloudx
+#        password: cloudx#123
+#        namespace: cloudx
+#        metadata:
+#          profiles:
+#            active: ${spring.profiles.active}
+#      config:
+#        server-addr: ${spring.cloud.nacos.server-addr}
+#        username: ${spring.cloud.nacos.username}
+#        password: ${spring.cloud.nacos.password}
+#        namespace: ${spring.cloud.nacos.discovery.namespace}
+#        prefix: ${spring.application.name}
+#        file-extension: properties

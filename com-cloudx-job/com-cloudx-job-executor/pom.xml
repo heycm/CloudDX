@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.cloudx</groupId>
+    <artifactId>com-cloudx-job</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <artifactId>com-cloudx-job-executor</artifactId>
+  <description>任务执行器</description>
+
+  <dependencies>
+    <!-- bootstrap properties -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+    <!-- web starter -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <!-- starter-actuator -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- xxl-job-core -->
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-job-core</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- 项目平台自定义组件 - Log -->
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-log-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
