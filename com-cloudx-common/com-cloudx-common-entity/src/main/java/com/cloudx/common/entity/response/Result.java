@@ -3,6 +3,7 @@ package com.cloudx.common.entity.response;
 import com.cloudx.common.entity.error.CodeMsg;
 import com.cloudx.common.entity.error.ErrorCode;
 import com.cloudx.common.entity.error.Optional;
+import com.cloudx.common.entity.error.ServiceException;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
@@ -99,5 +100,16 @@ public class Result<T> implements Serializable {
      */
     public boolean isSuccess() {
         return CodeMsg.SUCCESS.code() == code;
+    }
+
+    /**
+     * 获取响应数据，如果当前状态为失败则抛出异常
+     * @return 响应数据
+     */
+    public T data() {
+        if (this.isSuccess()) {
+            return data;
+        }
+        throw new ServiceException(code, message);
     }
 }
