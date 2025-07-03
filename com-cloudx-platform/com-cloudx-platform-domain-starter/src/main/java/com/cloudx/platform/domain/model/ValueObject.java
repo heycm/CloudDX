@@ -1,4 +1,4 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.model;
 
 import java.io.Serializable;
 

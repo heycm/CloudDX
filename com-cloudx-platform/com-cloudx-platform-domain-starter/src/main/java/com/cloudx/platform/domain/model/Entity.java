@@ -1,4 +1,4 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.model;
 
 /**
  * 领域实体标识，是领域中的具体对象，具有唯一标识符，有状态、可变性，关注对象的属性和行为

@@ -1,4 +1,4 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.model;
 
 /**
  * 标识，是不可变的，用于所有作为标识的DP的公共父接口

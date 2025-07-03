@@ -1,4 +1,4 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.model;
 
 /**
  * 聚合根标识，是对一组存在引用关系对象的封装，作用是屏蔽内部复杂的关联关系，仅对外暴露统一的接口 <br/>

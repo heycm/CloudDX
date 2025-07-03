@@ -1,4 +1,4 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.model;
 
 /**
  * DP，领域中最基本的类型、值对象，是无状态的、不可变的，包含值和行为，关注数据类型和数据值的含义和约束 <br/>

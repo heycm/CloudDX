@@ -1,4 +1,8 @@
-package com.cloudx.common.entity.domain;
+package com.cloudx.platform.domain.repository;
+
+
+import com.cloudx.platform.domain.model.AggregateRoot;
+import com.cloudx.platform.domain.model.Identifier;
 
 /**
  * 聚合根存储层接口
