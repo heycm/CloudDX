@@ -1,11 +1,15 @@
 package com.cloudx.platform.domain.query;
 
 import com.cloudx.common.entity.error.Assert;
+import com.cloudx.common.entity.error.CodeMsg;
 import com.cloudx.common.entity.error.Optional;
+import com.cloudx.common.tools.threadpool.virtual.VirtualThread;
 import com.cloudx.platform.domain.util.ReflectionUtil;
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -38,7 +42,16 @@ public class AppQueryBusImpl implements QueryBus {
 
     @Override
     public <R, T extends Query<R>> CompletableFuture<Optional<R>> dispatchAsync(T query) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> dispatch(query), VirtualThread.EXECUTOR);
+    }
+
+    @Override
+    public <R, T extends Query<R>> CompletableFuture<Optional<R>> dispatchAsync(T query, Duration timeout) {
+        CompletableFuture<Optional<R>> future = dispatchAsync(query);
+        if (timeout != null) {
+            return future.completeOnTimeout(Optional.error(CodeMsg.QUERY_TIMEOUT), timeout.toMillis(), TimeUnit.MILLISECONDS);
+        }
+        return future;
     }
 
     private void registerHandlers() {

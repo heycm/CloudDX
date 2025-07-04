@@ -1,11 +1,15 @@
 package com.cloudx.platform.domain.command;
 
 import com.cloudx.common.entity.error.Assert;
+import com.cloudx.common.entity.error.CodeMsg;
 import com.cloudx.common.entity.error.Optional;
+import com.cloudx.common.tools.threadpool.virtual.VirtualThread;
 import com.cloudx.platform.domain.util.ReflectionUtil;
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +44,16 @@ public class AppCommandBusImpl implements CommandBus {
 
     @Override
     public <R, T extends Command<R>> CompletableFuture<Optional<R>> dispatchAsync(T command) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> dispatch(command), VirtualThread.EXECUTOR);
+    }
+
+    @Override
+    public <R, T extends Command<R>> CompletableFuture<Optional<R>> dispatchAsync(T command, Duration timeout) {
+        CompletableFuture<Optional<R>> future = dispatchAsync(command);
+        if (timeout != null) {
+            return future.completeOnTimeout(Optional.error(CodeMsg.COMMAND_TIMEOUT), timeout.toMillis(), TimeUnit.MILLISECONDS);
+        }
+        return future;
     }
 
     private void registerHandlers() {

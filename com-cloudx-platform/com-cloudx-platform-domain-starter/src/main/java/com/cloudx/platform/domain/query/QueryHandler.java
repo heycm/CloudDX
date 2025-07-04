@@ -10,6 +10,11 @@ import com.cloudx.common.entity.error.Optional;
  */
 public interface QueryHandler<T extends Query<R>, R> {
 
-    Optional<R>  handle(T query);
+    /**
+     * 执行查询
+     * @param query 查询参数
+     * @return 查询结果
+     */
+    Optional<R> handle(T query);
 
 }
