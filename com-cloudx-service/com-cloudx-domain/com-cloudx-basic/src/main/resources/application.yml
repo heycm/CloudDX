@@ -1,38 +1,38 @@
-server:
-  port: 9100
-  servlet:
-    context-path: /domain/basic
-  shutdown: graceful
-  http2:
-    enabled: true
-  undertow:
-    threads:
-      io: 8
-      worker: 200
-    buffer-size: 1024
-    direct-buffers: true
-
-spring:
-  jackson:
-    default-property-inclusion: non_null
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
-
-datasource:
-  schema: cdx_basicdb
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml,classpath:mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-    logfile:
-      external-file: ${user.home}/logs/cloudx/${spring.application.name}/${spring.application.name}.log
+#server:
+#  port: 9100
+#  servlet:
+#    context-path: /domain/basic
+#  shutdown: graceful
+#  http2:
+#    enabled: true
+#  undertow:
+#    threads:
+#      io: 8
+#      worker: 200
+#    buffer-size: 1024
+#    direct-buffers: true
+#
+#spring:
+#  jackson:
+#    default-property-inclusion: non_null
+#    time-zone: GMT+8
+#    date-format: yyyy-MM-dd HH:mm:ss
+#
+#datasource:
+#  schema: cdx_basicdb
+#
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml,classpath:mapper/**/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always
+#    logfile:
+#      external-file: ${user.home}/logs/cloudx/${spring.application.name}/${spring.application.name}.log

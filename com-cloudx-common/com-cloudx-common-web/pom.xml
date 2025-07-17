@@ -38,6 +38,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-undertow</artifactId>
     </dependency>
+    <!-- Nacos -->
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-nacos-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
     <!-- SBA 监控端点 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
