@@ -1,25 +1,24 @@
-
-server:
-  port: 8080
-
-spring:
-  security:
-    user:
-      name: admin
-      password: admin
-  boot:
-    admin:
-      ui:
-        title: CloudX Boot Admin
-        brand: <img src="assets/img/icon-spring-boot-admin.svg\"><span>${spring.boot.admin.ui.title}</span>
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-    logfile:
-      external-file: ${user.home}/logs/cloudx/logs/${spring.application.name}/${spring.application.name}.log
+#server:
+#  port: 8080
+#
+#spring:
+#  security:
+#    user:
+#      name: admin
+#      password: admin
+#  boot:
+#    admin:
+#      ui:
+#        title: CloudX Boot Admin
+#        brand: <img src="assets/img/icon-spring-boot-admin.svg\"><span>${spring.boot.admin.ui.title}</span>
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always
+#    logfile:
+#      external-file: ${user.home}/logs/cloudx/${spring.application.name}/${spring.application.name}.log
