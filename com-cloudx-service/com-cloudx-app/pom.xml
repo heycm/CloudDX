@@ -17,4 +17,16 @@
     <module>com-cloudx-tenant</module>
   </modules>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.ly.smart-doc</groupId>
+        <artifactId>smart-doc-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
