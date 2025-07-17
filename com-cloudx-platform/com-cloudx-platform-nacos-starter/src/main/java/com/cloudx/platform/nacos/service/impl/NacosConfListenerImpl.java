@@ -46,7 +46,7 @@ public class NacosConfListenerImpl implements NacosConfListener {
                 }
             });
             // boot init receive
-            log.info("收到[dataId: {}, group: {}]配置更新: {}", dataId, group, config);
+            log.info("配置[dataId: {}, group: {}]初始化: {}", dataId, group, config);
             receiver.accept(config);
         } catch (NacosException e) {
             log.info("注册监听器发生异常", e);

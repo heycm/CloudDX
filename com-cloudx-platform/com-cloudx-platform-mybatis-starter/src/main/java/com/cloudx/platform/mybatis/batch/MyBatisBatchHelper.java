@@ -22,7 +22,8 @@ public class MyBatisBatchHelper {
 
     private static volatile SqlSessionFactory sqlSessionFactory;
 
-    private MyBatisBatchHelper() {
+    public MyBatisBatchHelper(SqlSessionFactory sqlSessionFactory) {
+        setSqlSessionFactory(sqlSessionFactory);
     }
 
     public static void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
@@ -37,7 +38,7 @@ public class MyBatisBatchHelper {
      * @param mapperClass Mapper类
      * @param consumer    执行方法
      */
-    public <E, M> int batch(Collection<E> list, Class<M> mapperClass, BiConsumer<E, M> consumer) {
+    public static <E, M> int batch(Collection<E> list, Class<M> mapperClass, BiConsumer<E, M> consumer) {
         SqlSession session = null;
         int i = 0;
         int size = list.size();
@@ -82,4 +83,5 @@ public class MyBatisBatchHelper {
         }
         return rows;
     }
+
 }

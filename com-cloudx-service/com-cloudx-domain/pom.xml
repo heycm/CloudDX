@@ -14,6 +14,14 @@
   <description>领域层</description>
   <modules>
     <module>com-cloudx-im</module>
+    <module>com-cloudx-basic</module>
   </modules>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.cloudx</groupId>
+      <artifactId>com-cloudx-platform-domain-starter</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
 </project>
