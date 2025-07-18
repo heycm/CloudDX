@@ -5,17 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.cloudx</groupId>
-    <artifactId>com-cloudx-parent</artifactId>
+    <artifactId>com-cloudx-intf</artifactId>
     <version>1.0</version>
   </parent>
 
-  <artifactId>com-cloudx-service</artifactId>
-  <packaging>pom</packaging>
-  <description>服务层</description>
-
-  <modules>
-    <module>com-cloudx-app</module>
-    <module>com-cloudx-domain</module>
-    <module>com-cloudx-intf</module>
-  </modules>
+  <artifactId>com-cloudx-intf-basic</artifactId>
+  <description>Basic服务接口</description>
 </project>

@@ -11,7 +11,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 /**
  * APP命令总线实现
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 2025/7/3 21:40
  */
-@Component
 public class AppCommandBusImpl implements CommandBus {
 
     private static final int initialCapacity = 256;

@@ -5,33 +5,31 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.cloudx</groupId>
-    <artifactId>com-cloudx-domain</artifactId>
+    <artifactId>com-cloudx-service</artifactId>
     <version>1.0</version>
   </parent>
 
-  <artifactId>com-cloudx-basic</artifactId>
-  <description>Domain - 基础支撑服务</description>
+  <artifactId>com-cloudx-intf</artifactId>
+  <packaging>pom</packaging>
+  <description>服务接口层</description>
+  <modules>
+    <module>com-cloudx-intf-basic</module>
+  </modules>
+
 
   <dependencies>
     <dependency>
       <groupId>com.cloudx</groupId>
-      <artifactId>com-cloudx-common-web</artifactId>
+      <artifactId>com-cloudx-platform-openfeign-starter</artifactId>
       <version>1.0</version>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.cloudx</groupId>
-      <artifactId>com-cloudx-intf-basic</artifactId>
+      <artifactId>com-cloudx-platform-canary-openfeign-starter</artifactId>
       <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cloudx</groupId>
-      <artifactId>com-cloudx-platform-datasource-starter</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cloudx</groupId>
-      <artifactId>com-cloudx-platform-mybatis-starter</artifactId>
-      <version>1.0</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
+
 </project>
