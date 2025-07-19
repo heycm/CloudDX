@@ -1,9 +1,14 @@
 package com.cloudx.basic.adapter.intf.dict;
 
+import com.cloudx.basic.adapter.intf.dict.assembler.DictAssembler;
+import com.cloudx.basic.application.dict.command.DictCreateCommand;
+import com.cloudx.common.entity.error.Optional;
 import com.cloudx.common.entity.response.Result;
 import com.cloudx.intf.basic.dict.IDictService;
 import com.cloudx.intf.basic.dict.dto.DictCreateRequest;
 import com.cloudx.intf.basic.dict.dto.DictModifyRequest;
+import com.cloudx.platform.domain.command.CommandBus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/dict")
+@RequiredArgsConstructor
 public class DictServiceImpl implements IDictService {
+
+    private final CommandBus commandBus;
 
     @Override
     public Result<?> create(DictCreateRequest request) {
-        return Result.error("操作失败");
+        DictCreateCommand command = DictAssembler.INST.convert(request);
+        Optional<Void> dispatch = commandBus.dispatch(command);
+        return Result.optional(dispatch);
     }
 
     @Override
